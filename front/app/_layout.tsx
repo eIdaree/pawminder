@@ -1,40 +1,49 @@
-import { useFonts } from "expo-font";
-import { Slot, Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
-import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { useFonts } from 'expo-font';
+import { Slot, Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState } from 'react';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { PetsProvider } from '@/context/PetContext';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    "Poppins-Semibold": require("../assets/fonts/Poppins-SemiBold.ttf"),
-    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-  });
+	const [fontsLoaded] = useFonts({
+		'Poppins-SemiBold': require('../assets/fonts/Poppins/Poppins-SemiBold.ttf'),
+		'Poppins-Regular': require('../assets/fonts/Poppins/Poppins-Regular.ttf'),
+		'Poppins-Bold': require('../assets/fonts/Poppins/Poppins-Bold.ttf'),
+		'Poppins-Medium': require('../assets/fonts/Poppins/Poppins-Medium.ttf'),
+		'Inter-Regular': require('../assets/fonts/Inter/static/Inter-Regular.ttf'),
+		'Inter-SemiBold': require('../assets/fonts/Inter/static/Inter-SemiBold.ttf'),
+		'Inter-Bold': require('../assets/fonts/Inter/static/Inter-Bold.ttf'),
+		'Inter-Medium': require('../assets/fonts/Inter/static/Inter-Medium.ttf')
+	});
 
-  const [isAppReady, setIsAppReady] = useState(false);
+	const [isAppReady, setIsAppReady] = useState(false);
 
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-      setIsAppReady(true);
-    }
-  }, [fontsLoaded]);
+	useEffect(() => {
+		if (fontsLoaded) {
+			SplashScreen.hideAsync();
+			setIsAppReady(true);
+		}
+	}, [fontsLoaded]);
 
-  if (!fontsLoaded || !isAppReady) {
-    return null; 
-  }
+	if (!fontsLoaded || !isAppReady) {
+		return null;
+	}
 
-  return (
-    <AuthProvider>
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: "#06b6d4" }, // Цвет фона заголовка
-          headerTintColor: "#fff", // Цвет текста заголовка
-          headerTitleAlign: "center", // Центрирование заголовка
-          headerShown: false
-        }}
-      />
-    </AuthProvider>
-  );
+	return (
+		<AuthProvider>
+			<PetsProvider>
+				<Stack
+					screenOptions={{
+						headerStyle: { backgroundColor: '#06b6d4' }, // Цвет фона заголовка
+						headerTintColor: '#fff', // Цвет текста заголовка
+						headerTitleAlign: 'center', // Центрирование заголовка
+						headerShown: false
+					}}
+				/>
+			</PetsProvider>
+		</AuthProvider>
+	);
 }

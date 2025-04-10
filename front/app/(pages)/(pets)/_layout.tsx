@@ -5,6 +5,7 @@ export default function Layout(){
         <Stack screenOptions={{ headerShown: false }} > 
             <Stack.Screen name="todo" options={{ headerShown: false }}/>
             <Stack.Screen name="addpet" options={{ headerShown: false }} />
+            <Stack.Screen name="PetProfile" options={{ headerShown: false }} />
         </Stack>
     )
 }

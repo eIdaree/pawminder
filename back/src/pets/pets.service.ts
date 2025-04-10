@@ -1,20 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Pet } from './entities/pet.entity';
-import { CreatePetDto } from './dto/create-pet.dto';
-import { UpdatePetDto } from './dto/update-pet.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Pet } from "./entities/pet.entity";
+import { CreatePetDto } from "./dto/create-pet.dto";
+import { UpdatePetDto } from "./dto/update-pet.dto";
 
 @Injectable()
 export class PetsService {
-  constructor(
-    @InjectRepository(Pet) private petsRepository: Repository<Pet>
-  ) {}
+  constructor(@InjectRepository(Pet) private petsRepository: Repository<Pet>) {}
 
   create(userId: number, createPetDto: CreatePetDto) {
     const pet = this.petsRepository.create({
       ...createPetDto,
-      user: { id: userId }, 
+      user: { id: userId },
     });
     return this.petsRepository.save(pet);
   }
@@ -22,20 +20,27 @@ export class PetsService {
   findAllByUserId(userId: number) {
     return this.petsRepository.find({
       where: { user: { id: userId } },
-      relations: ['tasks'],
+      relations: ["tasks"],
     });
   }
 
   async findOneByUserId(userId: number, id: number) {
     const pet = await this.petsRepository.findOne({
       where: { id, user: { id: userId } },
-      relations: ['tasks'],
+      relations: ["tasks"],
     });
 
     if (!pet) {
       throw new NotFoundException(`Pet with ID ${id} not found`);
     }
 
+    return pet;
+  }
+  async findOne(id: number) {
+    const pet = await this.petsRepository.findOne({
+      where: { id: id },
+      relations: ["user"],
+    });
     return pet;
   }
 

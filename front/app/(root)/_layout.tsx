@@ -1,11 +1,8 @@
-import { Stack } from "expo-router";
+import { useAuth } from '@/context/AuthContext';
+import { Slot } from 'expo-router';
 
 const Layout = () => {
-  return (
-    <Stack >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
-  );
+	return <Slot />;
 };
 
 export default Layout;
