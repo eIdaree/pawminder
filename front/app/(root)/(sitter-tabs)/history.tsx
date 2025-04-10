@@ -36,7 +36,6 @@ const HistoryList = () => {
 	if (loading) return <ActivityIndicator size='large' />;
 	if (error) return <Text>Error loading history</Text>;
 
-	// ✅ Filter and sort
 	let completedOrders = orders.filter((order: Order) => {
 		if (order.status !== 'completed') return false;
 		if (!order.updatedAt) return false;

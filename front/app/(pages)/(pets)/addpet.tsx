@@ -208,7 +208,6 @@ const AddPet = () => {
 	const sendDataToServer = async () => {
 		console.log('Sending data to server', state);
 		try {
-			// 1. Создаем питомца
 			const transformedData = transformPetData(state);
 			console.log('Transformed data:', transformedData);
 			const petResponse = await fetch(
@@ -226,9 +225,8 @@ const AddPet = () => {
 				throw new Error('Ошибка при добавлении питомца');
 			}
 
-			const pet = await petResponse.json(); // Получаем petId
+			const pet = await petResponse.json();
 			const token = await tokenCache.getToken('auth-token');
-			// 2. Загружаем фото (если оно есть)
 			let photoUrl = null;
 			if (state.photo) {
 				const formData = new FormData();
@@ -258,7 +256,6 @@ const AddPet = () => {
 				photoUrl = uploadData.url;
 			}
 
-			// 3. Обновляем питомца с фото
 			if (photoUrl) {
 				await fetch(`${process.env.EXPO_PUBLIC_BASE_URL}/pets/${pet.id}`, {
 					method: 'PATCH',
@@ -268,8 +265,8 @@ const AddPet = () => {
 			}
 
 			await fetchPets();
-			dispatch({ type: 'RESET' }); // Сброс всех полей
-			await AsyncStorage.removeItem('petForm'); // Удаление сохраненных данных
+			dispatch({ type: 'RESET' });
+			await AsyncStorage.removeItem('petForm');
 			setStep(11);
 		} catch (error: any) {
 			Alert.alert('Ошибка', error.message);
@@ -366,7 +363,7 @@ const AddPet = () => {
 												}
 												keyExtractor={(item) => item}
 												className='bg-white max-h-80'
-												style={{ elevation: 5 }} // Тень для Android
+												style={{ elevation: 5 }}
 												renderItem={({ item, index }) => (
 													<TouchableOpacity
 														onPress={() => {

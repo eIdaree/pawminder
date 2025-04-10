@@ -4,7 +4,7 @@ import * as fs from "fs";
 
 @Injectable()
 export class UploadService {
-  private readonly rootPath = "./"; // корень, где все папки
+  private readonly rootPath = "./";
 
   saveFile(file: Express.Multer.File, folder: string = "uploads"): string {
     if (!file) {
@@ -16,7 +16,6 @@ export class UploadService {
 
     const targetFolder = `${this.rootPath}${folder}`;
 
-    // Создаём папку, если не существует
     if (!fs.existsSync(targetFolder)) {
       fs.mkdirSync(targetFolder, { recursive: true });
     }

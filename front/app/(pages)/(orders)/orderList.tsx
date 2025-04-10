@@ -51,7 +51,7 @@ const OrderList = () => {
 		if (isSitter) {
 			return ['pending', 'accepted'].includes(order.status);
 		} else {
-			return !(order.status === 'completed' && order.rating); // скрыть завершённые с отзывом
+			return !(order.status === 'completed' && order.rating);
 		}
 	});
 	return (

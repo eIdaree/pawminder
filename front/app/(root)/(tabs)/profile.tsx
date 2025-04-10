@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Pressable } from 'react-native'; // Используем TouchableOpacity
+import { View, Text, TouchableOpacity, Pressable } from 'react-native';
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'expo-router';

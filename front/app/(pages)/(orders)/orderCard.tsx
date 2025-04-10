@@ -119,9 +119,9 @@ const OrderCard = () => {
 					automatically deducted upon transaction.
 				</Text>
 
-				{order.platformCommission && (
+				{localOrder.platformCommission && (
 					<Text className='text-sm text-gray-500 mt-1'>
-						Platform commission: {order.platformCommission} ₸
+						Platform commission: {localOrder.platformCommission} ₸
 					</Text>
 				)}
 

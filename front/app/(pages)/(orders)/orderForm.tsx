@@ -73,7 +73,7 @@ const OrderForm = () => {
 			Alert.alert('Успех', 'Заявка отправлена!', [
 				{
 					text: 'Ок',
-					onPress: () => router.replace('/(pages)/(orders)/orderList') // путь на твою страницу заказов
+					onPress: () => router.replace('/(pages)/(orders)/orderList')
 				}
 			]);
 		} catch (err) {

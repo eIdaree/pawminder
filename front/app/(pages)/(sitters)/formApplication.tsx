@@ -67,7 +67,6 @@ const FormApplication = () => {
 			const baseURL = process.env.EXPO_PUBLIC_BASE_URL;
 			const userId = user.id;
 			const token = await tokenCache.getToken('auth-token');
-			// 1. Обновление профиля няни
 			const response = await fetch(`${baseURL}/users/${userId}`, {
 				method: 'PATCH',
 				headers: { 'Content-Type': 'application/json' },
@@ -88,7 +87,6 @@ const FormApplication = () => {
 				throw new Error('Ответ от сервера отсутствует при обновлении профиля.');
 			}
 
-			// 2. Загрузка фото
 			const photoForm = new FormData();
 			photoForm.append('file', {
 				uri: photo.uri,
@@ -106,7 +104,6 @@ const FormApplication = () => {
 				throw new Error(`Ошибка при загрузке фото: ${photoError}`);
 			}
 
-			// 3. Загрузка сертификата
 			const certForm = new FormData();
 			certForm.append('file', {
 				uri: certificate.uri,

@@ -55,15 +55,12 @@ export class UploadController {
       );
     }
     console.log("444");
-    // Удаляем старое фото, если оно есть
     if (pet.photo) {
       this.uploadService.deleteFile(pet.photo);
     }
     console.log("555");
-    // Сохраняем новое фото
     const filename = this.uploadService.saveFile(file, "pet");
     console.log("666");
-    // Обновляем фото питомца
     await this.petService.update(userId, petId, { photo: filename });
     console.log("777");
     return {
@@ -89,8 +86,7 @@ export class UploadController {
       throw new ForbiddenException("Нет доступа к загрузке сертификата");
     }
 
-    const filename = this.uploadService.saveFile(file, "certificate"); // передаем папку
-    // Здесь можно обновить профиль пользователя, например, добавить путь к сертификату:
+    const filename = this.uploadService.saveFile(file, "certificate");
     await this.usersService.update(userId, { certificateUrl: filename });
 
     return {
@@ -114,7 +110,7 @@ export class UploadController {
       throw new ForbiddenException("Нет доступа к загрузке фото");
     }
 
-    const filename = this.uploadService.saveFile(file, "avatars"); // сохраним в папку avatars
+    const filename = this.uploadService.saveFile(file, "avatars");
     await this.usersService.update(userId, { avatarUrl: filename });
 
     return {

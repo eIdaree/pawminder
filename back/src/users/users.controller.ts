@@ -13,6 +13,7 @@ import {
   Request,
   Query,
   UnauthorizedException,
+  Req,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUsersDto } from "./dto/create-user.dto";
@@ -54,6 +55,15 @@ export class UsersController {
     }
 
     return this.userService.topUpBalance(userId, amount);
+  }
+  @Get("me/balance")
+  @UseGuards(JwtAuthGuard)
+  async getMyBalance(@Request() req) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new UnauthorizedException("User not found in request");
+    }
+    return this.userService.getBalance(userId);
   }
 
   @Get("sitters")

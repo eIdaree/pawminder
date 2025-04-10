@@ -11,7 +11,7 @@ import { Pet } from "src/pets/entities/pet.entity";
 @Module({
   imports: [
     TypeOrmModule.forFeature([Order, Users, Pet]),
-    forwardRef(() => PetsModule), // 👈 ОБЯЗАТЕЛЬНО
+    forwardRef(() => PetsModule),
     UsersModule,
   ],
   controllers: [OrdersController],

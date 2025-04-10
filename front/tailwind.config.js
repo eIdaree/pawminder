@@ -1,9 +1,6 @@
 // tailwind.config.js
 module.exports = {
-	content: [
-		'./components/**/*.{js,ts,jsx,tsx}', // Путь до файлов с компонентами
-		'./app/**/*.{js,ts,jsx,tsx}' // Если у вас есть папка 'app'
-	],
+	content: ['./components/**/*.{js,ts,jsx,tsx}', './app/**/*.{js,ts,jsx,tsx}'],
 
 	theme: {
 		extend: {

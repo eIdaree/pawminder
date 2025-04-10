@@ -100,7 +100,7 @@ export class OrdersService {
         status: OrderStatus.COMPLETED,
         rating: Not(IsNull()),
       },
-      relations: ["user"], // чтобы получить имя того, кто оставил отзыв
+      relations: ["user"],
       order: { updatedAt: "DESC" },
     });
   }
@@ -121,7 +121,6 @@ export class OrdersService {
     const isSitter = order.sitter.id === userId;
 
     if (isOwner) {
-      // 🔒 Только если заказ завершён — можно ставить рейтинг и отзыв
       if (dto.rating !== undefined || dto.review !== undefined) {
         if (order.status !== OrderStatus.COMPLETED) {
           throw new ForbiddenException(
@@ -145,13 +144,10 @@ export class OrdersService {
           );
         }
 
-        // 💸 Списание с владельца
         order.user.balance -= fee;
 
-        // 💸 Начисление няне
         order.sitter.balance += sitterShare;
 
-        // 💼 Устанавливаем комиссию
         order.platformCommission = commission;
         order.status = OrderStatus.COMPLETED;
       }

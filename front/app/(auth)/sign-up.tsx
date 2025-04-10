@@ -78,7 +78,7 @@ const SignUp: React.FC = () => {
 	const handleDateChange = (event: any, selectedDate?: Date) => {
 		const currentDate = selectedDate || dob;
 		setDob(currentDate);
-		setIsDatePickerVisible(false); // Hide the picker after selection
+		setIsDatePickerVisible(false);
 	};
 
 	const toggleDatePicker = () => {

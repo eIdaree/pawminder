@@ -37,9 +37,9 @@ export default function RootLayout() {
 			<PetsProvider>
 				<Stack
 					screenOptions={{
-						headerStyle: { backgroundColor: '#06b6d4' }, // Цвет фона заголовка
-						headerTintColor: '#fff', // Цвет текста заголовка
-						headerTitleAlign: 'center', // Центрирование заголовка
+						headerStyle: { backgroundColor: '#06b6d4' },
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
 						headerShown: false
 					}}
 				/>

@@ -15,9 +15,6 @@ import { OrdersModule } from "src/orders/orders.module";
   ],
   controllers: [PetsController],
   providers: [PetsService],
-  exports: [
-    PetsService,
-    TypeOrmModule, // ✅ добавь это!
-  ],
+  exports: [PetsService, TypeOrmModule],
 })
 export class PetsModule {}

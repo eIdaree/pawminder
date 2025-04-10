@@ -110,7 +110,7 @@ export class Users {
   @Column({ nullable: true })
   @IsOptional()
   @IsString()
-  location?: string; // город/район
+  location?: string;
 
   @Column({ nullable: true })
   @IsOptional()
@@ -152,11 +152,11 @@ export class Users {
 
   @Column({ default: 0 })
   @IsNumber()
-  hourlyRate: number; // Текущая ставка няни
+  hourlyRate: number;
 
   @Column({ default: 0 })
   @IsNumber()
-  platformCommission: number; // доход платформы за 1 заказ (авто вычисляется)
+  platformCommission: number;
 
   @OneToMany(() => Pet, (pet) => pet.user)
   pets: Pet[];
