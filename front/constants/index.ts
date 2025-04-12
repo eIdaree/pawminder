@@ -25,6 +25,18 @@ import chat from '@/assets/images/icons/chat.png';
 import paw from '@/assets/images/icons/paw.png';
 import point from '@/assets/images/icons/point.png';
 import filter from '@/assets/images/icons/filter.png';
+import pencil from '@/assets/images/icons/pencil.png';
+import close from '@/assets/images/icons/close.png';
+import petpawcomplete from '@/assets/images/icons/petpawcomplete.png';
+import trash from '@/assets/images/icons/trash.png';
+import plus_circle from '@/assets/images/icons/add-circle.png';
+import sitter from '@/assets/images/icons/sitter.png';
+
+import article1 from '@/assets/images/article_images/article1.png';
+import article2 from '@/assets/images/article_images/article2.png';
+import article3 from '@/assets/images/article_images/article3.png';
+import article4 from '@/assets/images/article_images/article4.png';
+import article5 from '@/assets/images/article_images/article5.png';
 
 export const images = {
 	cat,
@@ -35,7 +47,12 @@ export const images = {
 	dog_ava,
 	container,
 	dog,
-	formapplication
+	formapplication,
+	article1,
+	article2,
+	article3,
+	article4,
+	article5
 };
 export const icons = {
 	shop,
@@ -53,7 +70,13 @@ export const icons = {
 	chat,
 	paw,
 	point,
-	filter
+	filter,
+	pencil,
+	close,
+	petpawcomplete,
+	trash,
+	plus_circle,
+	sitter
 };
 
 export const genders = ['Male', 'Female'];

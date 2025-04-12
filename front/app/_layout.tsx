@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { PetsProvider } from '@/context/PetContext';
+import { BalanceProvider } from '@/context/BalanceContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,14 +36,16 @@ export default function RootLayout() {
 	return (
 		<AuthProvider>
 			<PetsProvider>
-				<Stack
-					screenOptions={{
-						headerStyle: { backgroundColor: '#06b6d4' },
-						headerTintColor: '#fff',
-						headerTitleAlign: 'center',
-						headerShown: false
-					}}
-				/>
+				<BalanceProvider>
+					<Stack
+						screenOptions={{
+							headerStyle: { backgroundColor: '#06b6d4' },
+							headerTintColor: '#fff',
+							headerTitleAlign: 'center',
+							headerShown: false
+						}}
+					/>
+				</BalanceProvider>
 			</PetsProvider>
 		</AuthProvider>
 	);

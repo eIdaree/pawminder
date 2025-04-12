@@ -47,6 +47,11 @@ const SitterCatalog = () => {
 			const res = await fetch(
 				`${process.env.EXPO_PUBLIC_BASE_URL}/users/sitters?${query.toString()}`
 			);
+			if (!res.ok) {
+				console.log('soemtt', res);
+				setSitters([]);
+				return;
+			}
 
 			const data = await res.json();
 			console.log('Sitters fetched:', data);

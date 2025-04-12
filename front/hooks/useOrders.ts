@@ -51,10 +51,19 @@ export const useOrders = (mode: Mode = 'owner') => {
 					body: JSON.stringify(updates)
 				}
 			);
-			if (!res.ok) throw new Error('Не удалось обновить заказ');
+			if (!res.ok) {
+				const errorBody = await res.json();
+				if (
+					res.status === 400 &&
+					errorBody.message === 'Not enough balance to complete the order'
+				) {
+					throw new Error('Недостаточно средств для завершения заказа');
+				}
+				throw new Error('Ошибка при обновлении заказа');
+			}
 			await fetchOrders();
 		} catch (err) {
-			console.error('Ошибка обновления заказа:', err);
+			// console.error('Ошибка обновления заказа:', err);
 			throw err;
 		}
 	};

@@ -1,4 +1,11 @@
-import { IsString, IsOptional, IsDateString, IsNumber } from "class-validator";
+import {
+  IsString,
+  IsOptional,
+  IsDateString,
+  IsNumber,
+  IsArray,
+  ArrayMinSize,
+} from "class-validator";
 
 export class CreatePetDto {
   @IsString()
@@ -16,11 +23,17 @@ export class CreatePetDto {
   @IsString()
   gender: string;
 
-  @IsString()
-  activity: string;
+  // Множественный выбор: не менее одного значения
+  @IsArray()
+  @IsString({ each: true })
+  @ArrayMinSize(1, { message: "Choose at least one activity" })
+  activity: string[];
 
-  @IsString()
-  character: string;
+  // Множественный выбор: не менее одного значения
+  @IsArray()
+  @IsString({ each: true })
+  @ArrayMinSize(1, { message: "Choose at least one personality trait" })
+  character: string[];
 
   @IsOptional()
   @IsString()
@@ -32,4 +45,12 @@ export class CreatePetDto {
   @IsOptional()
   @IsString()
   photo?: string;
+
+  @IsOptional()
+  @IsString()
+  petDescription?: string;
+
+  @IsOptional()
+  @IsString()
+  additionalNotes?: string;
 }

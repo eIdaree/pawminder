@@ -12,17 +12,25 @@ export interface PetFormState {
 	birthDate: string;
 	weight: string;
 	color: string;
-	character: string;
-	activity: string;
+	character: string[];
+	activity: string[];
+	petDescription: string;
+	additionalNotes: string;
 }
 export interface Pet {
 	id: number | 'add';
 	name: string;
 	breed?: string;
+	species: string;
 	age?: string;
 	weight?: number;
 	photo?: string;
 	gender?: string;
+	date_of_birth?: string | undefined;
+	character?: string[];
+	activity?: string[];
+	petDescription?: string;
+	additionalNotes?: string;
 }
 
 export interface Sitter {

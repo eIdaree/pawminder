@@ -42,38 +42,50 @@ const PetCarousel = ({ activeIndex, setActiveIndex, pets }) => {
 	);
 };
 
-const PetInfo = ({ pet }) => {
+const PetInfo = ({ pet }: { pet: Pet }) => {
 	const age = calculateAge(pet.date_of_birth);
 	return (
-		<View className='flex-row mt-6 py-4 px-[5px] min-w-[327px] h-[132px] bg-white rounded-xl shadow-md items-center'>
-			<Image
-				source={{
-					uri: `${process.env.EXPO_PUBLIC_BASE_URL}/pet/${pet.photo}`
-				}}
-				className='w-[102px] h-[102px] rounded-lg  ml-1'
-			/>
-			<View className='ml-4  w-[192px] h-[94px] flex-column justify-center items-center'>
-				<Text className='text-2xl font-PoppinsBold  text-center mt-2'>
-					{pet.name}
-				</Text>
-				<View className='flex-row my-3 mx-auto'>
-					<View className='items-center flex-1'>
-						<Image source={icons.man} style={{ width: 24, height: 24 }} />
-						<Text className='font-PoppinsRegular mt-2'>{pet.gender}</Text>
-					</View>
-					<View className='items-center flex-1'>
-						<Image source={icons.calendar} style={{ width: 24, height: 24 }} />
-						<Text className='font-PoppinsRegular mt-2'>
-							{`${age.years}y ${age.months}m`}
-						</Text>
-					</View>
-					<View className='items-center flex-1'>
-						<Image source={icons.weight} style={{ width: 24, height: 24 }} />
-						<Text className='font-PoppinsRegular mt-2'>{pet.weight} kg</Text>
+		<Pressable
+			onPress={() =>
+				router.push({
+					pathname: '/(pages)/(pets)/PetProfile',
+					params: pet
+				})
+			}
+		>
+			<View className='flex-row mt-6 py-4 px-[5px] min-w-[327px] h-[132px] bg-white rounded-xl shadow-md items-center'>
+				<Image
+					source={{
+						uri: `${process.env.EXPO_PUBLIC_BASE_URL}/pet/${pet.photo}`
+					}}
+					className='w-[102px] h-[102px] rounded-lg  ml-1'
+				/>
+				<View className='ml-4  w-[192px] h-[94px] flex-column justify-center items-center'>
+					<Text className='text-2xl font-PoppinsBold  text-center mt-2'>
+						{pet.name}
+					</Text>
+					<View className='flex-row my-3 mx-auto'>
+						<View className='items-center flex-1'>
+							<Image source={icons.man} style={{ width: 24, height: 24 }} />
+							<Text className='font-PoppinsRegular mt-2'>{pet.gender}</Text>
+						</View>
+						<View className='items-center flex-1'>
+							<Image
+								source={icons.calendar}
+								style={{ width: 24, height: 24 }}
+							/>
+							<Text className='font-PoppinsRegular mt-2'>
+								{`${age.years}y ${age.months}m`}
+							</Text>
+						</View>
+						<View className='items-center flex-1'>
+							<Image source={icons.weight} style={{ width: 24, height: 24 }} />
+							<Text className='font-PoppinsRegular mt-2'>{pet.weight} kg</Text>
+						</View>
 					</View>
 				</View>
 			</View>
-		</View>
+		</Pressable>
 	);
 };
 
@@ -111,17 +123,22 @@ const PetStatus = () => (
 	</View>
 );
 const features = [
-	{ title: 'Calendar', route: '/(pages)/petsitters', color: '#674CFF' },
+	{ title: 'Notes', route: '/(pages)/(notes)/notes', color: '#674CFF' },
 	{ title: 'To-do', route: '/(pages)/todo', color: '#8A75FF' }
 ];
 
-const PetActions = () => (
+const PetActions = ({ petId }: { petId: number }) => (
 	<View className='flex-row flex-wrap justify-between mt-1'>
 		{features.map((feature, index) => (
 			<FeatureButton
 				key={index}
 				title={feature.title}
-				onPress={() => router.push(feature.route as any)}
+				onPress={() =>
+					router.push({
+						pathname: feature.route as any,
+						params: { petId: petId.toString() }
+					})
+				}
 				color={feature.color}
 			/>
 		))}
@@ -186,7 +203,9 @@ export default function PetProfile() {
 						<>
 							<PetInfo pet={activePet} />
 							<PetStatus />
-							<PetActions />
+							<PetActions
+								petId={typeof activePet.id === 'number' ? activePet.id : 0}
+							/>
 						</>
 					)}
 				</View>

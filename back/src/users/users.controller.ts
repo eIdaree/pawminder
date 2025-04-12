@@ -63,19 +63,35 @@ export class UsersController {
     if (!userId) {
       throw new UnauthorizedException("User not found in request");
     }
-    return this.userService.getBalance(userId);
+    return this.userService.getBalanceWithTransactions(userId);
   }
 
   @Get("sitters")
   findSitters(@Query() query: any) {
+    console.log("query", query);
+
+    const petTypes = Array.isArray(query.petTypes)
+      ? query.petTypes
+      : query.petTypes
+        ? query.petTypes.split(",")
+        : [];
+
+    const skills = Array.isArray(query.skills)
+      ? query.skills
+      : query.skills
+        ? query.skills.split(",")
+        : [];
+
     const filters: FindSittersDto = {
       location: query.location || "",
-      petTypes: query.petTypes ? query.petTypes.split(",") : [],
-      skills: query.skills ? query.skills.split(",") : [],
+      petTypes,
+      skills,
     };
+
     console.log("Filters", filters);
     return this.userService.findSitters(filters);
   }
+
   @Get("verification/pending")
   getPendingVerificationUsers() {
     return this.userService.getPendingVerificationUsers();

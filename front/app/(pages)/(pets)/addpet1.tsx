@@ -71,7 +71,7 @@ const AddPet = () => {
 		resolver: yupResolver(schema)
 	});
 
-	const currentType = watch('type');
+	const currentType = watch('type') || '';
 	const currentBreedList = animalTypes[currentType] || [];
 
 	useEffect(() => {
@@ -133,7 +133,7 @@ const AddPet = () => {
 
 			<Animated.View entering={FadeInRight} exiting={FadeOutLeft}>
 				{step === 1 && (
-					<View>
+					<Animated.View entering={FadeInRight} exiting={FadeOutLeft}>
 						<Text className={textInput}>What type of pet do you have?</Text>
 						<Controller
 							control={control}
@@ -166,11 +166,11 @@ const AddPet = () => {
 						{errors.type && (
 							<Text className='text-red-500'>{errors.type.message}</Text>
 						)}
-					</View>
+					</Animated.View>
 				)}
 
 				{step === 2 && currentType !== '🐾 Other' && (
-					<View>
+					<Animated.View entering={FadeInRight} exiting={FadeOutLeft}>
 						<Text className={textInput}>What is your pet’s breed?</Text>
 						<TouchableOpacity
 							onPress={() => setShowDropdown(!showDropdown)}
@@ -197,11 +197,11 @@ const AddPet = () => {
 								)}
 							/>
 						)}
-					</View>
+					</Animated.View>
 				)}
 
 				{step === 3 && (
-					<View>
+					<Animated.View entering={FadeInRight} exiting={FadeOutLeft}>
 						<Text className={textInput}>What is your pet’s name?</Text>
 						<Controller
 							control={control}
@@ -218,10 +218,13 @@ const AddPet = () => {
 						{errors.name && (
 							<Text className='text-red-500'>{errors.name.message}</Text>
 						)}
-					</View>
+					</Animated.View>
 				)}
 			</Animated.View>
-
+			<Animated.View
+				entering={FadeInRight}
+				exiting={FadeOutLeft}
+			></Animated.View>
 			<View className='absolute bottom-4 left-0 right-0 flex-row px-4'>
 				{step > 1 ? (
 					<View className='flex-row justify-between w-full'>

@@ -22,7 +22,7 @@ const FeatureButton: React.FC<FeatureButtonProps> = ({
 	return (
 		<TouchableOpacity
 			style={{ backgroundColor: color }}
-			className='w-[48%] rounded-xl px-4 pt-4 mb-4'
+			className='w-[49%] rounded-3xl px-4 pt-4 mb-4'
 			onPress={onPress}
 		>
 			<Text className='text-xl font-bold mb-4 text-white font-PoppinsRegular '>

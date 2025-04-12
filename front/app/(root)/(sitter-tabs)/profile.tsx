@@ -1,20 +1,20 @@
-import { View, Text, TouchableOpacity, Image, Pressable } from 'react-native'; // Используем TouchableOpacity
+import { View, Text, TouchableOpacity, Image, Pressable } from 'react-native';
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'expo-router';
-import { Button } from '@/components/shared/Button';
+import { useBalance } from '@/context/BalanceContext';
 import { images } from '@/constants';
 
 const getVerificationMessage = (status: string) => {
 	switch (status) {
 		case 'unverified':
-			return 'Вы ещё не проходили верификацию.\nЧтобы продолжить, пожалуйста, заполните форму и подтвердите свою квалификацию.';
+			return 'Вы ещё не проходили верификацию.\nПожалуйста, заполните форму.';
 		case 'pending':
-			return 'Заявка на верификацию отправлена. Ожидайте подтверждения.';
+			return 'Заявка отправлена. Ожидайте подтверждения.';
 		case 'verified':
 			return 'Вы верифицированный специалист ✅';
 		case 'rejected':
-			return 'Ваша заявка отклонена. Пожалуйста, обновите данные и попробуйте снова.';
+			return 'Заявка отклонена. Попробуйте снова.';
 		default:
 			return 'Статус неизвестен';
 	}
@@ -26,7 +26,6 @@ const getStatusColor = (status: string) => {
 		case 'pending':
 			return 'text-yellow-600';
 		case 'rejected':
-			return 'text-red-600';
 		case 'unverified':
 			return 'text-red-600';
 		default:
@@ -37,6 +36,7 @@ const getStatusColor = (status: string) => {
 const Profile = () => {
 	const { user, logout } = useAuth();
 	const router = useRouter();
+	const { balance } = useBalance();
 
 	const handleLogout = async () => {
 		try {
@@ -47,37 +47,57 @@ const Profile = () => {
 	};
 
 	return (
-		<View className='bg-gray-100 px-4 py-8 items-start flex-column'>
-			{/* Картинка животного */}
-			<Text className='text-3xl font-PoppinsSemiBold text-bold'>
+		<View className='bg-gray-100 px-4 py-8 items-start flex-1'>
+			{/* Header */}
+			<Text className='text-3xl font-PoppinsSemiBold'>
 				Welcome {user.first_name}
 			</Text>
-			<View>
-				<Text className={` text-xs ${getStatusColor(user.verificationStatus)}`}>
-					{getVerificationMessage(user.verificationStatus)}
+			<Text
+				className={`mt-2 text-xs ${getStatusColor(user.verificationStatus)}`}
+			>
+				{getVerificationMessage(user.verificationStatus)}
+			</Text>
+
+			{/* Balance (read-only) */}
+			<View className='my-5 bg-white w-full rounded-xl px-4 py-4 shadow'>
+				<Text className='text-lg font-PoppinsSemiBold text-gray-700 mb-1'>
+					Current Balance
+				</Text>
+				<Text className='text-2xl font-PoppinsSemiBold text-green-600'>
+					₸ {balance}
 				</Text>
 			</View>
+
+			{/* Verification Form */}
 			<Pressable onPress={() => router.push('/formApplication')}>
 				<Image
 					source={images.formapplication}
-					className='w-[328px] h-[120px] mt-4'
+					className='w-[328px] h-[120px] mb-4'
 				/>
 			</Pressable>
 
-			{/* Текст */}
-			<View className='mt-4'>
-				<Text className='text-lg font-bold text-left'>Email</Text>
-				<Text className='text-sm  mb-4 text-left'>{user.email}</Text>
-				<Text className='text-lg font-bold text-left'>Phone Number</Text>
-				<Text className='text-sm '>{user.phone}</Text>
+			{/* Info */}
+			<View className='w-full'>
+				<Text className='text-lg font-bold'>Email</Text>
+				<Text className='text-sm mb-4'>{user.email}</Text>
+				<Text className='text-lg font-bold'>Phone</Text>
+				<Text className='text-sm mb-4'>{user.phone}</Text>
+
+				<Pressable
+					onPress={() => router.push('/(pages)/(balance)/transactions')}
+				>
+					<Text className='text-lg font-PoppinsSemiBold mt-2'>
+						View Transactions
+					</Text>
+				</Pressable>
 			</View>
 
-			{/* Кнопка выхода с кастомным стилем */}
+			{/* Logout */}
 			<TouchableOpacity
-				className='mt-8 bg-red-500 h-12 px-4 py-2 rounded-lg w-full '
+				className='mt-auto bg-red-500 h-12 px-4 py-2 rounded-lg w-full mb-4'
 				onPress={handleLogout}
 			>
-				<Text className='text-center text-white text-lg text-bold font-PoppinsSemiBold'>
+				<Text className='text-center text-white text-lg font-PoppinsSemiBold'>
 					Logout
 				</Text>
 			</TouchableOpacity>

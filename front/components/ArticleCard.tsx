@@ -15,14 +15,24 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 	imageUrl
 }) => {
 	return (
-		<View className='bg-gray-100 rounded-lg p-4 my-1'>
+		<View className='bg-white rounded-2xl p-4 my-1 w-full'>
 			<View className='flex-row items-center justify-around gap-4'>
-				<Image source={imageUrl} className='w-10% h-32 rounded-lg mb-4' />
-				<View>
-					<Text className='w-3/4 text-xl font-PoppinsSemiBold font-bold text-black'>
+				<Image source={imageUrl} className='w-[142px] h-[117px] rounded-lg' />
+				<View className='flex-1'>
+					<Text
+						className='text-xl font-PoppinsMedium text-black'
+						style={{ flexWrap: 'wrap' }}
+						numberOfLines={2}
+					>
 						{title}
 					</Text>
-					<Text className=' w-3/4 text-sm font-PoppinsRegular text-gray-500'>{`Author ${author} · ${date}`}</Text>
+					<Text
+						className='text-sm font-PoppinsRegular text-gray-500'
+						style={{ flexWrap: 'wrap' }}
+						numberOfLines={1}
+					>
+						{`Author ${author} · ${date}`}
+					</Text>
 				</View>
 			</View>
 		</View>

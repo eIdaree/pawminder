@@ -124,11 +124,20 @@ export class UsersService {
 
     return await query.getMany();
   }
-  async getBalance(userId: number) {
-    const user = await this.usersRepository.findOne({ where: { id: userId } });
+  async getBalanceWithTransactions(userId: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      relations: ["transactions"],
+    });
+
     if (!user) throw new NotFoundException("User not found");
-    return { balance: user.balance };
+
+    return {
+      balance: user.balance,
+      transactions: user.transactions || [],
+    };
   }
+
   async topUpBalance(userId: number, amount: number): Promise<Users> {
     if (amount <= 0) {
       throw new BadRequestException("Invalid top-up amount");

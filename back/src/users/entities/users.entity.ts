@@ -18,6 +18,7 @@ import {
 } from "class-validator";
 import { Pet } from "../../pets/entities/pet.entity";
 import { Order } from "../../orders/entities/order.entity";
+import { Transaction } from "src/transactions/entities/transaction.entity";
 
 export enum Role {
   USER = "user",
@@ -87,6 +88,8 @@ export class Users {
 
   @UpdateDateColumn()
   updated_at: Date;
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  transactions: Transaction[];
 
   // 🐶🐱 Только для sitter
 

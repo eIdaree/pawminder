@@ -1,3 +1,4 @@
+import { Transaction } from "./../transactions/entities/transaction.entity";
 import {
   BadRequestException,
   ForbiddenException,
@@ -13,6 +14,7 @@ import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
 import { Pet } from "src/pets/entities/pet.entity";
 import { OrderStatus } from "./entities/order.entity";
+import { TransactionsService } from "src/transactions/transactions.service";
 
 @Injectable()
 export class OrdersService {
@@ -24,6 +26,7 @@ export class OrdersService {
     private petsRepository: Repository<Pet>,
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
+    private transactionsService: TransactionsService,
   ) {}
 
   async create(
@@ -150,6 +153,22 @@ export class OrdersService {
 
         order.platformCommission = commission;
         order.status = OrderStatus.COMPLETED;
+
+        await this.usersRepository.save(order.user);
+        await this.usersRepository.save(order.sitter);
+
+        await this.transactionsService.create(
+          order.user,
+          fee,
+          "expense",
+          `Order #${order.id} payment`,
+        );
+        await this.transactionsService.create(
+          order.sitter,
+          sitterShare,
+          "income",
+          `Earnings from Order #${order.id}`,
+        );
       }
 
       if (dto.rating !== undefined) order.rating = dto.rating;

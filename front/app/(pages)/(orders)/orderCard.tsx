@@ -13,6 +13,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { BackButton } from '@/components/shared/BackButton';
 import SitterCard from '@/components/SitterCard';
 import { useOrders } from '@/hooks/useOrders';
+import { useBalance } from '@/context/BalanceContext';
 
 const InfoBlock = ({ label }: { label: string }) => (
 	<Text className='font-PoppinsMedium text-sm mt-2 bg-white px-[14px] py-5 rounded-2xl'>
@@ -23,6 +24,7 @@ const InfoBlock = ({ label }: { label: string }) => (
 const OrderCard = () => {
 	const { user } = useAuth();
 	const { updateOrderStatus } = useOrders();
+	const { fetchBalance } = useBalance();
 	const params = useLocalSearchParams();
 	const initialOrder: Order = JSON.parse(params.order as string);
 	const [localOrder, setLocalOrder] = useState(initialOrder);
@@ -38,10 +40,15 @@ const OrderCard = () => {
 	const completeOrder = async () => {
 		try {
 			await updateOrderStatus(localOrder.id, { status: 'completed' });
+
 			setLocalOrder({ ...localOrder, status: 'completed' });
+			console.log('789');
+
+			await fetchBalance();
+
 			Alert.alert('Успех', 'Заказ завершён');
-		} catch {
-			Alert.alert('Ошибка', 'Не удалось завершить заказ');
+		} catch (err: any) {
+			Alert.alert('Ошибка', err.message || 'Не удалось завершить заказ');
 		}
 	};
 
