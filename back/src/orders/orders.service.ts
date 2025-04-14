@@ -1,4 +1,3 @@
-import { Transaction } from "./../transactions/entities/transaction.entity";
 import {
   BadRequestException,
   ForbiddenException,
@@ -7,14 +6,13 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Pet } from "src/pets/entities/pet.entity";
+import { TransactionsService } from "src/transactions/transactions.service";
 import { IsNull, Not, Repository } from "typeorm";
-import { Order } from "./entities/order.entity";
-import { Users } from "../users/entities/users.entity";
+import { SitterLevel, Users } from "../users/entities/users.entity";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
-import { Pet } from "src/pets/entities/pet.entity";
-import { OrderStatus } from "./entities/order.entity";
-import { TransactionsService } from "src/transactions/transactions.service";
+import { Order, OrderStatus } from "./entities/order.entity";
 
 @Injectable()
 export class OrdersService {
@@ -153,7 +151,35 @@ export class OrdersService {
 
         order.platformCommission = commission;
         order.status = OrderStatus.COMPLETED;
+        order.sitter.completedOrdersCount += 1;
 
+        if (order.sitter.completedOrdersCount >= 51) {
+          order.sitter.level = SitterLevel.EXPERT;
+        } else if (
+          order.sitter.completedOrdersCount >= 21 &&
+          order.sitter.averageRating >= 4.5
+        ) {
+          order.sitter.level = SitterLevel.EXPERIENCED;
+        } else if (
+          order.sitter.completedOrdersCount >= 0 &&
+          order.sitter.averageRating >= 3.5
+        ) {
+          order.sitter.level = SitterLevel.BEGINNER;
+        }
+
+        const ordersWithRatings = await this.ordersRepository.find({
+          where: {
+            sitter: { id: order.sitter.id },
+            rating: Not(IsNull()),
+          },
+        });
+
+        const totalRating = ordersWithRatings.reduce(
+          (sum, o) => sum + o.rating,
+          0,
+        );
+        const avgRating = totalRating / ordersWithRatings.length;
+        order.sitter.averageRating = parseFloat(avgRating.toFixed(2));
         await this.usersRepository.save(order.user);
         await this.usersRepository.save(order.sitter);
 

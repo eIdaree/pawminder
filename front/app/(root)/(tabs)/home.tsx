@@ -64,14 +64,14 @@ const Home: React.FC = () => {
 						key={index}
 						title={feature.title}
 						icon={feature.icon}
-						onPress={() => router.replace(feature.route as any)}
+						onPress={() => router.push(feature.route as any)}
 						color={feature.color}
 					/>
 				))}
 			</View>
 
 			<Text className='text-xl font-bold mb-4'>Articles</Text>
-			<View className='max-w-[330px] w-full'>
+			<View className='min-w-[330px] w-full'>
 				{articles.map((article) => (
 					<Pressable
 						key={article.id}

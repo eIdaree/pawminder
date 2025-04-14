@@ -119,7 +119,6 @@ const ArticleDetailScreen = () => {
 				</View>
 			</ScrollView>
 
-			{/* Нижняя кнопка, меняющаяся в зависимости от режима */}
 			<View className='absolute bottom-5 left-0 right-0 items-center'>
 				{isEditMode ? (
 					<Button

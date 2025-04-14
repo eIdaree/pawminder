@@ -26,7 +26,7 @@ export const useOrders = (mode: Mode = 'owner') => {
 			});
 			const data = await res.json();
 			setOrders(data);
-		} catch (err) {
+		} catch (err: any) {
 			setError(err);
 			console.error('Ошибка при получении заказов:', err);
 		} finally {

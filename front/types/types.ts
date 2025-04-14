@@ -45,9 +45,11 @@ export interface Sitter {
 	description?: string;
 	petTypes?: string[];
 	completedOrdersCount: number;
+	averageRating?: number;
 	certificateUrl?: string;
 	avatarUrl?: string;
 	skills?: string[];
+	level?: string;
 	location?: string[];
 	created_at?: Date;
 	updated_at?: Date;
@@ -92,4 +94,10 @@ export interface Review {
 		first_name: string;
 		last_name: string;
 	};
+}
+
+export interface Todo {
+	id: number;
+	title: string;
+	completed: boolean;
 }

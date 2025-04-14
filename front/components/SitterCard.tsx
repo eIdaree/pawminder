@@ -5,6 +5,7 @@ import { Button } from './shared/Button';
 import { router } from 'expo-router';
 import { Pressable } from 'react-native';
 import { icons } from '@/constants';
+import { toParams } from '@/utils/toParams';
 
 const handleContactPress = (phone: string) => {
 	Alert.alert(
@@ -51,15 +52,23 @@ const SitterCard = ({
 				<Text className='font-bold text-xl family-PoppinsSemiBold'>
 					{sitter.first_name} {sitter.last_name}
 				</Text>
+				<View className='flex-row items-center px-2 py-1 border-2 border-primary rounded-full self-start my-1'>
+					<Text className='text-xs text-primary font-PoppinsMedium'>
+						{sitter.level}
+					</Text>
+				</View>
+
 				<Text className='text-xs font-PoppinsRegular mt-3'>Work with:</Text>
 				<View className='flex-row flex-wrap gap-2 mt-1 text-center'>
 					{sitter.petTypes?.map((type) => (
 						<View
 							key={type}
-							className='flex-row items-center px-2 py-1 border border-primary rounded-full'
+							className='flex-row items-center px-2 py-1 border-2 border-primary rounded-full'
 						>
 							<Image source={icons.paw} className='w-4 h-4' />
-							<Text className='text-xs text-primary'>{type}</Text>
+							<Text className='text-xs text-primary font-PoppinsMedium'>
+								{type}
+							</Text>
 						</View>
 					))}
 				</View>
@@ -79,7 +88,7 @@ const SitterCard = ({
 							onPress={() =>
 								router.push({
 									pathname: '/(pages)/(sitters)/sitterProfile',
-									params: sitter
+									params: toParams(sitter)
 								})
 							}
 						></Button>

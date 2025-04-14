@@ -16,10 +16,16 @@ import SitterFilterModal from '@/components/SitterFilterModal';
 import { Sitter } from '@/types/types';
 import { icons } from '@/constants';
 
+type FilterProp = {
+	location: string;
+	petTypes: string[];
+	skills: string[];
+};
+
 const SitterCatalog = () => {
 	const [sitters, setSitters] = useState([]);
 	const [filtersVisible, setFiltersVisible] = useState(false);
-	const [filters, setFilters] = useState({
+	const [filters, setFilters] = useState<FilterProp>({
 		location: '',
 		petTypes: [],
 		skills: []
@@ -43,23 +49,36 @@ const SitterCatalog = () => {
 			if (Array.isArray(filters.skills) && filters.skills.length > 0) {
 				filters.skills.forEach((skill) => query.append('skills', skill));
 			}
-			console.log('Query params:', query.toString());
+
 			const res = await fetch(
 				`${process.env.EXPO_PUBLIC_BASE_URL}/users/sitters?${query.toString()}`
 			);
+
 			if (!res.ok) {
-				console.log('soemtt', res);
+				console.log('Failed to fetch sitters:', res);
 				setSitters([]);
 				return;
 			}
 
 			const data = await res.json();
 			console.log('Sitters fetched:', data);
-			setSitters(data);
+
+			const levelOrder = {
+				EXPERT: 3,
+				EXPERIENCED: 2,
+				BEGINNER: 1
+			};
+
+			const sorted = [...data].sort(
+				(a, b) => levelOrder[b.level] - levelOrder[a.level]
+			);
+
+			setSitters(sorted);
 		} catch (err) {
 			console.error('Ошибка получения нянь:', err);
 		}
 	};
+
 	const handleSearch = () => {
 		setFilters((prev) => ({ ...prev, first_name: search }));
 	};
@@ -94,7 +113,7 @@ const SitterCatalog = () => {
 			<SitterFilterModal
 				visible={filtersVisible}
 				onClose={() => setFiltersVisible(false)}
-				onApply={(newFilters) => {
+				onApply={(newFilters: FilterProp) => {
 					setFilters(newFilters);
 					setFiltersVisible(false);
 				}}

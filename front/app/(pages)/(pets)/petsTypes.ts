@@ -1,4 +1,7 @@
-const animalTypes = {
+type animal = {
+	[key: string]: Array<string>;
+};
+const animalTypes: animal = {
 	'🐶 Dog': [
 		'Labrador',
 		'German Shepherd',
@@ -6,9 +9,10 @@ const animalTypes = {
 		'Bulldog',
 		'French Bulldog'
 	],
-	'🐱 Cat': ['Сфинкс', 'Мейн-кун', 'Британец']
+	'🐱 Cat': ['Sphynx', 'Maine Coon', 'Brittany']
 	// '🐦 Bird': ['Попугай', 'Канарейка', 'Голубь'],
 	// '🦎 Reptile': ['Ящерица', 'Черепаха', 'Змея'],
+
 	// '🐹 Rodent': ['Хомяк', 'Мышь', 'Крыса'],
 	// '🐾 Other': ['Попугай', 'Хомяк', 'Кролик'],
 };

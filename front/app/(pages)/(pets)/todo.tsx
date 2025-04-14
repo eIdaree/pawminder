@@ -12,12 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 import { BackButton } from '@/components/shared/BackButton';
 import { icons } from '@/constants';
-
-interface Todo {
-	id: number;
-	title: string;
-	completed: boolean;
-}
+import { Todo } from '@/types/types';
 
 const TodoScreen = () => {
 	const { petId } = useLocalSearchParams();

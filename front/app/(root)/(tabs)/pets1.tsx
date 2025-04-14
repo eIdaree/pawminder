@@ -25,6 +25,8 @@ import { useAuth } from '@/context/AuthContext';
 import { Pet } from '@/types/types';
 import { usePets } from '@/context/PetContext';
 import { calculateAge } from '@/helper/calculateAge';
+import { toParams } from '@/utils/toParams';
+import { Todo } from '@/types/types';
 
 const PetCarousel = ({ activeIndex, setActiveIndex, pets }) => {
 	return (
@@ -49,7 +51,7 @@ const PetInfo = ({ pet }: { pet: Pet }) => {
 			onPress={() =>
 				router.push({
 					pathname: '/(pages)/(pets)/PetProfile',
-					params: pet
+					params: toParams(pet)
 				})
 			}
 		>
@@ -89,39 +91,59 @@ const PetInfo = ({ pet }: { pet: Pet }) => {
 	);
 };
 
-const PetStatus = () => (
-	<View className=' bg-white min-w-[327px] h-[300px] rounded-xl my-2'>
-		{/* Контейнер с фоном */}
-		<View className='w-full h-full relative rounded-xl overflow-hidden'>
-			{/* Фон */}
-			<Image
-				source={images.container}
-				className='absolute w-full h-full'
-				resizeMode='cover'
-			/>
+const PetStatus = ({ pet }: { pet: Pet }) => {
+	const [firstTask, setFirstTask] = useState<Todo | null>(null);
+	const baseURL = process.env.EXPO_PUBLIC_BASE_URL;
 
-			{/* ТЕКСТ + ИКОНКА (рядом, поверх фона) */}
-			<View className='absolute top-3 left-0 right-0 flex-row justify-center items-center px-4'>
-				{/* Сам текст с бордером */}
-				<View className='border border-primary px-6 py-3 rounded-2xl bg-white/80'>
-					<Text className='text-text text-base font-PoppinsBold text-center'>
-						Buddy eating right now! 🥩
-					</Text>
+	useEffect(() => {
+		const fetchFirstTask = async () => {
+			try {
+				const res = await fetch(`${baseURL}/tasks/pet/${pet.id}`);
+				const data: Todo[] = await res.json();
+				if (Array.isArray(data) && data.length > 0) {
+					setFirstTask(data[0]);
+				}
+			} catch (err) {
+				console.error('Failed to fetch tasks', err);
+			}
+		};
+
+		fetchFirstTask();
+	}, [pet.id]);
+
+	return (
+		<View className='bg-white min-w-[327px] h-[300px] rounded-xl my-2'>
+			{/* Контейнер с фоном */}
+			<View className='w-full h-full relative rounded-xl overflow-hidden'>
+				{/* Фон */}
+				<Image
+					source={images.container}
+					className='absolute w-full h-full'
+					resizeMode='cover'
+				/>
+
+				{/* ТЕКСТ + ИКОНКА (рядом, поверх фона) */}
+				<View className='absolute top-3 left-0 right-0 flex-row justify-center items-center px-4'>
+					{/* Сам текст с бордером */}
+					<View className='border border-primary px-6 py-3 rounded-2xl bg-white/80'>
+						<Text className='text-text text-base font-PoppinsBold text-center'>
+							{firstTask ? firstTask.title : 'No tasks available'}
+						</Text>
+					</View>
 				</View>
 
-				{/* Иконка справа от текста */}
-				<Pressable className='ml-2'>
-					<Image source={icons.brush} className='w-5 h-5' />
-				</Pressable>
-			</View>
-
-			{/* Собака снизу по центру */}
-			<View className='absolute bottom-4 left-0 right-0 items-center'>
-				<Image source={images.dog} className='w-32 h-40' resizeMode='contain' />
+				{/* Собака снизу по центру */}
+				<View className='absolute bottom-4 left-0 right-0 items-center'>
+					<Image
+						source={pet.species === '🐱 Cat' ? images.catAva : images.dogAva}
+						className='w-32 h-40'
+						resizeMode='contain'
+					/>
+				</View>
 			</View>
 		</View>
-	</View>
-);
+	);
+};
 const features = [
 	{ title: 'Notes', route: '/(pages)/(notes)/notes', color: '#674CFF' },
 	{ title: 'To-do', route: '/(pages)/todo', color: '#8A75FF' }
@@ -202,7 +224,7 @@ export default function PetProfile() {
 					) : (
 						<>
 							<PetInfo pet={activePet} />
-							<PetStatus />
+							<PetStatus pet={activePet} />
 							<PetActions
 								petId={typeof activePet.id === 'number' ? activePet.id : 0}
 							/>

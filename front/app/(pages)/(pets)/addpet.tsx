@@ -27,8 +27,8 @@ import { useAuth } from '@/context/AuthContext';
 import { tokenCache } from '@/utils/auth';
 import { usePets } from '@/context/PetContext';
 import { router } from 'expo-router';
+import { toParams } from '@/utils/toParams';
 
-// Расширяем состояние: добавляем два новых поля (опционально)
 const initialState: PetFormState = {
 	type: '',
 	breed: '',
@@ -40,7 +40,6 @@ const initialState: PetFormState = {
 	color: '',
 	character: [],
 	activity: [],
-	// Новые поля:
 	petDescription: '',
 	additionalNotes: ''
 };
@@ -49,7 +48,6 @@ type RootStackParamList = {
 	PetProfile: { pet: PetFormState };
 };
 
-// Обновляем схему валидации. Новые поля задаём как необязательные.
 const schema = yup.object().shape({
 	type: yup.string().required('Choose type of pet'),
 	name: yup.string().required('The name for pet is required'),
@@ -64,12 +62,10 @@ const schema = yup.object().shape({
 		.of(yup.string())
 		.min(1, 'Choose at least one personality trait'),
 	photo: yup.string().nullable(),
-	// Новые поля:
 	petDescription: yup.string(),
 	additionalNotes: yup.string()
 });
 
-// Добавляем выводы в консоль внутри reducer для отладки
 const reducer = (
 	state: PetFormState,
 	action: { type: string; payload?: any }
@@ -109,7 +105,6 @@ const transformPetData = (state: PetFormState) => {
 		breed: state.breed,
 		date_of_birth: state.birthDate,
 		photo: state.photo,
-		// Передаём новые поля
 		petDescription: state.petDescription,
 		additionalNotes: state.additionalNotes
 	};
@@ -117,7 +112,6 @@ const transformPetData = (state: PetFormState) => {
 
 const AddPet = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
-	// Теперь у нас 12 шагов ввода, финальный экран – шаг 13
 	const [step, setStep] = useState(1);
 	const [showDropdown, setShowDropdown] = useState(false);
 	const [customTypeInput, setCustomTypeInput] = useState('');
@@ -133,19 +127,17 @@ const AddPet = () => {
 		defaultValues: initialState
 	});
 
-	// Вывод доступных типов питомцев для отладки
 	useEffect(() => {
 		console.log('Available animal types:', Object.keys(animalTypes));
 	}, []);
 
-	// Загружаем данные из AsyncStorage и выводим в консоль для отладки
 	useEffect(() => {
 		(async () => {
 			try {
 				const savedData = await AsyncStorage.getItem('petForm');
 				console.log('Loaded saved pet form data:', savedData);
 				if (savedData) {
-					const parsedData = JSON.parse(savedData);
+					const parsedData: PetFormState = JSON.parse(savedData);
 					Object.entries(parsedData).forEach(([field, value]) => {
 						dispatch({ type: 'SET_FIELD', payload: { field, value } });
 						if (field in initialState) {
@@ -159,12 +151,10 @@ const AddPet = () => {
 		})();
 	}, []);
 
-	// Логируем изменения состояния формы
 	useEffect(() => {
 		console.log('Current form state:', state);
 	}, [state]);
 
-	// Сохраняем данные формы, добавив логирование
 	useEffect(() => {
 		AsyncStorage.setItem('petForm', JSON.stringify(state))
 			.then(() => console.log('Form state saved to storage'))
@@ -172,7 +162,6 @@ const AddPet = () => {
 	}, [state]);
 
 	const validateAllFields = (): string | null => {
-		// Обязательные поля оставляем без новых (необязательных) вопросов
 		const requiredFields: (keyof PetFormState)[] = [
 			'type',
 			'breed',
@@ -188,7 +177,6 @@ const AddPet = () => {
 
 		for (const field of requiredFields) {
 			const value = state[field];
-			// Если поле является массивом, проверяем его длину
 			if (Array.isArray(value)) {
 				if (value.length === 0) {
 					console.log('Validation error: missing selection in', field);
@@ -199,23 +187,20 @@ const AddPet = () => {
 				return field;
 			}
 		}
-		return null; // Всё ок
+		return null;
 	};
 
 	const nextStep = () => {
 		console.log('Next step pressed at step:', step);
-		// Если на первом шаге тип питомца не выбран, выдаём предупреждение
 		if (step === 1 && state.type === '') {
 			Alert.alert('Error', 'Please choose the type of pet');
 			return;
 		}
 		if (step === 2 && state.type === '🐾 Other') {
-			// Пользователь вводит кастомный тип питомца
 			console.log('Custom type provided:', customTypeInput);
 			handleSelection('type', customTypeInput);
 			handleSelection('breed', '');
 		}
-		// Когда введены все данные (шаг ввода 12) – вызываем onSubmit
 		if (step === 12) {
 			onSubmit();
 			return;
@@ -338,7 +323,6 @@ const AddPet = () => {
 			dispatch({ type: 'RESET' });
 			await AsyncStorage.removeItem('petForm');
 			console.log('Form reset complete, navigating to final step');
-			// Финальный экран – шаг 13
 			setStep(13);
 		} catch (error: any) {
 			Alert.alert('Ошибка', error.message);
@@ -350,14 +334,11 @@ const AddPet = () => {
 		dispatch({ type: 'SET_FIELD', payload: { field, value } });
 	};
 	const toggleSelection = (field: keyof PetFormState, item: string) => {
-		// Предполагаем, что значение поля — это массив строк
 		const current = (state[field] as unknown as string[]) || [];
 		if (current.includes(item)) {
-			// Если уже выбран, удаляем элемент
 			const updated = current.filter((el) => el !== item);
 			dispatch({ type: 'SET_FIELD', payload: { field, value: updated } });
 		} else {
-			// Если не выбран, добавляем элемент
 			const updated = [...current, item];
 			dispatch({ type: 'SET_FIELD', payload: { field, value: updated } });
 		}
@@ -369,7 +350,6 @@ const AddPet = () => {
 	return (
 		<>
 			<View className='flex-1 p-4 bg-white'>
-				{/* Обновлён прогресс-бар: общее кол-во шагов ввода – 12 */}
 				<View className='h-2 w-full border-primary border rounded-full overflow-hidden mb-4'>
 					<View
 						className='h-full bg-primary'
@@ -777,7 +757,6 @@ const AddPet = () => {
 						</View>
 					)}
 
-					{/* Новый шаг 11: дополнительная информация о питомце */}
 					{step === 11 && (
 						<View>
 							<Text className={textInput}>Tell more about your pet</Text>
@@ -801,7 +780,6 @@ const AddPet = () => {
 						</View>
 					)}
 
-					{/* Новый шаг 12: дополнительные примечания */}
 					{step === 12 && (
 						<View>
 							<Text className={textInput}>Additional notes</Text>
@@ -825,7 +803,6 @@ const AddPet = () => {
 						</View>
 					)}
 
-					{/* Финальный экран: Done (шаг 13) */}
 					{step === 13 && (
 						<View>
 							<Text className={textInput}>Done!</Text>
@@ -838,7 +815,7 @@ const AddPet = () => {
 								onPress={() =>
 									router.replace({
 										pathname: '/(pages)/(pets)/PetProfile',
-										params: state
+										params: toParams(state)
 									})
 								}
 							/>

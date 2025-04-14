@@ -6,6 +6,7 @@ import { Button } from '@/components/shared/Button';
 import { icons } from '@/constants';
 import { BackButton } from '@/components/shared/BackButton';
 import { Review } from '@/types/types';
+import { StarRating } from '@/components/shared/StarRating/StarRating';
 
 const SitterProfile = () => {
 	const sitter = useLocalSearchParams();
@@ -31,12 +32,9 @@ const SitterProfile = () => {
 	console.log('SitterProfile', { sitter });
 	return (
 		<View className='flex-1 bg-white'>
-			{/* Кнопка назад — поверх всего, фиксированная */}
 			<BackButton />
 
-			{/* ScrollView со всем остальным */}
 			<ScrollView className='flex-1'>
-				{/* Картинка */}
 				<Image
 					source={{
 						uri: `${process.env.EXPO_PUBLIC_BASE_URL}/avatars/${sitter.avatarUrl}`
@@ -44,7 +42,6 @@ const SitterProfile = () => {
 					className='w-full min-h-[325px]'
 				/>
 
-				{/* Контент */}
 				<View className='-mt-4 bg-white rounded-t-3xl px-5 pt-6 pb-10'>
 					<Text className='text-3xl font-PoppinsSemiBold mb-2 text-center'>
 						{sitter.first_name} {sitter.last_name}
@@ -62,13 +59,11 @@ const SitterProfile = () => {
 						{sitter.level}
 					</Text>
 
-					{/* Описание */}
 					<Text className='text-xl font-PoppinsSemiBold mb-2'>About me</Text>
 					<Text className='text-base mb-4 font-PoppinsRegular'>
 						{sitter.description}
 					</Text>
 
-					{/* Навыки */}
 					<Text className='text-xl font-PoppinsSemiBold mb-1'>Work with</Text>
 					<View className='flex-row flex-wrap gap-2 mt-1 text-center'>
 						{petTypes.map((type) => (
@@ -84,7 +79,6 @@ const SitterProfile = () => {
 						))}
 					</View>
 
-					{/* Навыки */}
 					<Text className='text-xl font-PoppinsSemiBold mb-1 mt-4'>Skills</Text>
 					<View className='flex-row flex-wrap gap-1 mt-1'>
 						{skills.map((skill) => (
@@ -96,6 +90,15 @@ const SitterProfile = () => {
 					{reviews.length > 0 && (
 						<View className='mt-6'>
 							<Text className='text-xl font-PoppinsSemiBold mb-2'>Reviews</Text>
+							<View className='flex flex-row items-center py-4 px-8 justify-center my-3 border rounded-xl border-lightgray'>
+								<StarRating rating={Number(sitter.averageRating)} />
+								<Text className='text-base font-PoppinsMedium mr-[7px]'>
+									{sitter.averageRating}
+								</Text>
+								<Text className='text-sm font-PoppinsRegular '>
+									{reviews.length} reviews
+								</Text>
+							</View>
 							{reviews.map((review) => (
 								<View
 									key={review.id}

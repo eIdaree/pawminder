@@ -5,7 +5,7 @@ import { BackButton } from '@/components/shared/BackButton';
 import { calculateAge } from '@/helper/calculateAge';
 import { icons } from '@/constants';
 import { Button } from '@/components/shared/Button';
-import * as Print from 'expo-print'; // для генерации PDF
+import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { router } from 'expo-router';
 
@@ -44,7 +44,6 @@ const PetProfileScreen = () => {
 		id
 	} = route.params || {};
 
-	// Преобразование activity и character в массивы, если пришли как строка
 	const activityArray = Array.isArray(activity)
 		? activity
 		: typeof activity === 'string'
@@ -58,13 +57,10 @@ const PetProfileScreen = () => {
 
 	const { months, years } = calculateAge(date_of_birth);
 
-	// Состояние для переключения режима между sharing и удалением
 	const [isEditMode, setIsEditMode] = useState(false);
 
-	// Функция для генерации PDF и экспорта данных с помощью Share API
 	const handleShare = async () => {
 		try {
-			// Подготавливаем HTML для генерации PDF
 			const html = `
         <html>
           <body style="font-family: Arial, sans-serif;">
@@ -101,7 +97,6 @@ const PetProfileScreen = () => {
 		}
 	};
 
-	// Функция для удаления питомца с подтверждением
 	const handleDelete = async () => {
 		Alert.alert('Delete Pet', 'Are you sure you want to delete this pet?', [
 			{ text: 'Cancel', style: 'cancel' },
@@ -110,8 +105,6 @@ const PetProfileScreen = () => {
 				style: 'destructive',
 				onPress: async () => {
 					try {
-						// Здесь реализуйте вызов API для удаления питомца, например:
-
 						await fetch(`${process.env.EXPO_PUBLIC_BASE_URL}/pets/${id}`, {
 							method: 'DELETE'
 						});
@@ -130,7 +123,6 @@ const PetProfileScreen = () => {
 
 	return (
 		<View className='flex-1 bg-white'>
-			{/* Кнопка-переключатель (карандаш) в правом верхнем углу */}
 			<Pressable
 				onPress={() => setIsEditMode(!isEditMode)}
 				style={{
@@ -146,11 +138,9 @@ const PetProfileScreen = () => {
 				<Text style={{ fontSize: 20 }}>{'✏️'}</Text>
 			</Pressable>
 
-			{/* Кнопка Назад (BackButton) */}
 			<BackButton />
 
 			<ScrollView className='flex-1'>
-				{/* Изображение питомца */}
 				<Image
 					source={{ uri: `${process.env.EXPO_PUBLIC_BASE_URL}/pet/${photo}` }}
 					className='w-full min-h-[325px]'

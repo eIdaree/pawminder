@@ -136,7 +136,7 @@ export class Users {
   @Column({ default: 0 })
   completedOrdersCount: number;
 
-  @Column({ default: 0 })
+  @Column({ type: "float", default: 0 })
   @IsNumber()
   averageRating: number;
 

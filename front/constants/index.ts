@@ -5,7 +5,8 @@ import sitters from '../assets/images/button/petsitters.png';
 
 import cat from '../assets/images/article_images/cat.png';
 import dog_ava from '../assets/images/article_images/dog_ava.png';
-import dog from '../assets/images/pets_svg/dog.png';
+import dogAva from '../assets/images/pets_svg/dog.png';
+import catAva from '../assets/images/pets_svg/cat.png';
 import container from '../assets/images/containerpet.png';
 import formapplication from '../assets/images/formapplication.png';
 
@@ -31,6 +32,12 @@ import petpawcomplete from '@/assets/images/icons/petpawcomplete.png';
 import trash from '@/assets/images/icons/trash.png';
 import plus_circle from '@/assets/images/icons/add-circle.png';
 import sitter from '@/assets/images/icons/sitter.png';
+import star from '@/assets/images/icons/star.png';
+import starFilled from '@/assets/images/icons/star-filled.png';
+import petcafemark from '@/assets/images/icons/petcafemark.png';
+import parkmark from '@/assets/images/icons/parkmark.png';
+import search from '@/assets/images/icons/search.png';
+import closecircle from '@/assets/images/icons/close-circle.png';
 
 import article1 from '@/assets/images/article_images/article1.png';
 import article2 from '@/assets/images/article_images/article2.png';
@@ -46,7 +53,8 @@ export const images = {
 	sitters,
 	dog_ava,
 	container,
-	dog,
+	dogAva,
+	catAva,
 	formapplication,
 	article1,
 	article2,
@@ -76,7 +84,13 @@ export const icons = {
 	petpawcomplete,
 	trash,
 	plus_circle,
-	sitter
+	sitter,
+	star,
+	starFilled,
+	petcafemark,
+	parkmark,
+	search,
+	closecircle
 };
 
 export const genders = ['Male', 'Female'];
