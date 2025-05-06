@@ -78,7 +78,7 @@ const Home: React.FC = () => {
 						onPress={() =>
 							router.push({
 								pathname: '/articleDetail',
-								params: { ...article }
+								params: { ...article, content: JSON.stringify(article.content) }
 							})
 						}
 					>

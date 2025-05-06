@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   UpdateDateColumn,
+  ManyToOne,
 } from "typeorm";
 import {
   IsEmail,
@@ -19,6 +20,7 @@ import {
 import { Pet } from "../../pets/entities/pet.entity";
 import { Order } from "../../orders/entities/order.entity";
 import { Transaction } from "src/transactions/entities/transaction.entity";
+import { Sitter } from "src/sitters/entities/sitter.entity";
 
 export enum Role {
   USER = "user",
@@ -90,6 +92,8 @@ export class Users {
   updated_at: Date;
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions: Transaction[];
+  @ManyToOne(() => Sitter, (sitter) => sitter.users)
+  sitter: Sitter;
 
   // 🐶🐱 Только для sitter
 

@@ -45,7 +45,7 @@ const OrderList = () => {
 	);
 
 	if (loading) return <ActivityIndicator size='large' />;
-	if (error) return <Text>Ошибка загрузки заказов</Text>;
+	if (error) return <Text>Error while rendering orders</Text>;
 	const headerStyle = 'text-sm text-gray-600 font-PoppinsSemiBold';
 	const filteredOrders = orders.filter((order: Order) => {
 		if (isSitter) {

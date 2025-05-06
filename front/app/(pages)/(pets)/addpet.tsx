@@ -814,8 +814,8 @@ const AddPet = () => {
 								size='lg'
 								onPress={() =>
 									router.replace({
-										pathname: '/(pages)/(pets)/PetProfile',
-										params: toParams(state)
+										pathname: '/(root)/(tabs)/pets1'
+										// params: toParams(state)
 									})
 								}
 							/>

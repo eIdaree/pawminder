@@ -22,8 +22,10 @@ export const TabIcon = ({
 			/>
 		</View>
 		<Text
-			className={`mt-2 text-xs w-16 text-center font-PoppinsRegular ${
-				focused ? 'text-primary' : 'text-gray-500'
+			className={`mt-2 text-xs w-16 text-center  ${
+				focused
+					? 'text-primary font-PoppinsSemiBold'
+					: 'text-gray-500 font-PoppinsMedium'
 			}`}
 			numberOfLines={1}
 		>

@@ -20,10 +20,13 @@ type FilterProp = {
 	location: string;
 	petTypes: string[];
 	skills: string[];
+	first_name?: string;
 };
 
 const SitterCatalog = () => {
-	const [sitters, setSitters] = useState([]);
+	const [originalSitters, setOriginalSitters] = useState([]);
+	const [searchedSitters, setSearchedSitters] = useState<Sitter[]>([]);
+
 	const [filtersVisible, setFiltersVisible] = useState(false);
 	const [filters, setFilters] = useState<FilterProp>({
 		location: '',
@@ -56,7 +59,7 @@ const SitterCatalog = () => {
 
 			if (!res.ok) {
 				console.log('Failed to fetch sitters:', res);
-				setSitters([]);
+				setOriginalSitters([]);
 				return;
 			}
 
@@ -73,14 +76,23 @@ const SitterCatalog = () => {
 				(a, b) => levelOrder[b.level] - levelOrder[a.level]
 			);
 
-			setSitters(sorted);
+			setOriginalSitters(sorted);
+			setSearchedSitters(sorted);
 		} catch (err) {
 			console.error('Ошибка получения нянь:', err);
 		}
 	};
 
 	const handleSearch = () => {
-		setFilters((prev) => ({ ...prev, first_name: search }));
+		if (!search.trim()) {
+			setSearchedSitters(originalSitters);
+			return;
+		}
+
+		const filtered = originalSitters.filter((sitter: Sitter) =>
+			sitter.first_name.toLowerCase().includes(search.toLowerCase())
+		);
+		setSearchedSitters(filtered);
 	};
 
 	useEffect(() => {
@@ -105,7 +117,7 @@ const SitterCatalog = () => {
 			</View>
 
 			<ScrollView className='min-w-[328px] pt-4'>
-				{sitters.map((sitter: Sitter) => (
+				{searchedSitters.map((sitter: Sitter) => (
 					<SitterCard key={sitter.id} sitter={sitter} />
 				))}
 			</ScrollView>

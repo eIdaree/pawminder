@@ -59,7 +59,7 @@ const FormApplication = () => {
 
 	const onSubmit = async (data: FormData) => {
 		if (!photo || !certificate) {
-			Alert.alert('Ошибка', 'Пожалуйста, загрузите фото и сертификат');
+			Alert.alert('Error', 'Please upload both a photo and certificate');
 			return;
 		}
 
@@ -79,12 +79,12 @@ const FormApplication = () => {
 			});
 			if (!response.ok) {
 				const errorText = await response.text();
-				throw new Error(`Ошибка формы: ${errorText || response.status}`);
+				throw new Error(`Form error: ${errorText || response.status}`);
 			}
 
 			const responseData = await response.json();
 			if (!responseData) {
-				throw new Error('Ответ от сервера отсутствует при обновлении профиля.');
+				throw new Error('No server response when updating profile.');
 			}
 
 			const photoForm = new FormData();
@@ -101,7 +101,7 @@ const FormApplication = () => {
 
 			if (!photoUpload.ok) {
 				const photoError = await photoUpload.text();
-				throw new Error(`Ошибка при загрузке фото: ${photoError}`);
+				throw new Error(`Photo upload error: ${photoError}`);
 			}
 
 			const certForm = new FormData();
@@ -122,25 +122,29 @@ const FormApplication = () => {
 
 			if (!certUpload.ok) {
 				const certError = await certUpload.text();
-				throw new Error(`Ошибка при загрузке сертификата: ${certError}`);
+				throw new Error(`Certificate upload error: ${certError}`);
 			}
+
 			await refreshUser();
-			Alert.alert('Успешно', 'Ваша заявка отправлена на модерацию');
+			Alert.alert(
+				'Success',
+				'Your application has been submitted for moderation'
+			);
 			router.replace('/(root)/(sitter-tabs)/profile');
 		} catch (err: any) {
-			console.error('Ошибка в onSubmit:', err);
-			Alert.alert('Ошибка', err.message || 'Не удалось отправить заявку');
+			console.error('onSubmit error:', err);
+			Alert.alert('Error', err.message || 'Failed to submit the application');
 		}
 	};
 
 	return (
 		<ScrollView className='p-4'>
-			<Text className='text-2xl font-bold mb-4'>Форма верификации</Text>
+			<Text className='text-2xl font-bold mb-4'>Verification Form</Text>
 
-			{/* Фото */}
-			<Text className='mb-2 font-semibold'>Фото</Text>
+			{/* Photo */}
+			<Text className='mb-2 font-semibold'>Photo</Text>
 			<Button
-				title={photo?.fileName || 'Загрузить фото'}
+				title={photo?.fileName || 'Upload photo'}
 				onPress={handlePickImage}
 				variant='default'
 			/>
@@ -151,18 +155,18 @@ const FormApplication = () => {
 				/>
 			)}
 
-			{/* Описание */}
-			<Text className='mt-4 mb-1'>О себе</Text>
+			{/* Description */}
+			<Text className='mt-4 mb-1'>About you</Text>
 			<Controller
 				control={control}
 				name='description'
-				rules={{ required: 'Описание обязательно' }}
+				rules={{ required: 'Description is required' }}
 				render={({ field: { onChange, value } }) => (
 					<TextInput
 						className='border rounded p-2 mb-1'
 						multiline
 						numberOfLines={4}
-						placeholder='Напишите кратко о себе'
+						placeholder='Tell us briefly about yourself'
 						value={value}
 						onChangeText={onChange}
 					/>
@@ -172,28 +176,27 @@ const FormApplication = () => {
 				<Text className='text-red-500 mb-2'>{errors.description.message}</Text>
 			)}
 
-			{/* Животные */}
+			{/* Animals */}
 			<CollapsibleCheckboxGroup
-				title='С кем вы работаете?'
-				options={['Собаки', 'Кошки', 'Птицы', 'Рептилии']}
+				title='Which animals do you work with?'
+				options={['Dogs', 'Cats']}
 				selected={selectedPetTypes}
 				onChange={(updated) => setSelectedPetTypes(updated)}
 			/>
 
-			{/* Навыки */}
 			<CollapsibleCheckboxGroup
-				title='Ваши навыки'
-				options={['Прогулка', 'Дрессировка', 'Уход', 'Медицинская помощь']}
+				title='Your skills'
+				options={['Walking', 'Training', 'Grooming', 'Medical Care']}
 				selected={selectedSkills}
 				onChange={(updated) => setSelectedSkills(updated)}
 			/>
 
-			{/* Локация */}
-			<Text className='mt-4 mb-1'>Город/место проживания</Text>
+			{/* Location */}
+			<Text className='mt-4 mb-1'>City</Text>
 			<Controller
 				control={control}
 				name='location'
-				rules={{ required: 'Укажите ваш город' }}
+				rules={{ required: 'City is required' }}
 				render={({ field: { onChange, value } }) => (
 					<View className='border rounded mb-1 bg-white'>
 						<RNPickerSelect
@@ -211,21 +214,23 @@ const FormApplication = () => {
 				<Text className='text-red-500 mb-2'>{errors.location.message}</Text>
 			)}
 
-			{/* Сертификат */}
-			<Text className='mt-4 mb-2 font-semibold'>Сертификат</Text>
+			{/* Certificate */}
+			<Text className='mt-4 mb-2 font-semibold'>Certificate</Text>
 			<Button
-				title={certificate?.name || 'Загрузить сертификат'}
+				title={certificate?.name || 'Upload certificate'}
 				onPress={handlePickCertificate}
 				variant='default'
 			/>
+
 			{user.verificationStatus === 'pending' && (
 				<Text className='text-yellow-600 mt-2'>
-					Ваша заявка уже на рассмотрении. Повторная отправка невозможна.
+					Your application is under review. You cannot submit again.
 				</Text>
 			)}
+
 			{/* Submit */}
 			<Button
-				title='Отправить заявку'
+				title='Submit application'
 				onPress={handleSubmit(onSubmit)}
 				variant='primary'
 				size='lg'

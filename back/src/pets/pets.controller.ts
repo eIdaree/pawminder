@@ -23,7 +23,6 @@ export class PetsController {
   @Post(":userId")
   @UsePipes(new ValidationPipe())
   create(@Param("userId") userId: number, @Body() createPetDto: CreatePetDto) {
-    console.log("Received DTO:", createPetDto);
     return this.petsService.create(userId, createPetDto);
   }
 

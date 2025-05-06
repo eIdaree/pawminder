@@ -3,7 +3,8 @@ import {
 	Text,
 	TouchableOpacity,
 	Image,
-	ImageSourcePropType
+	ImageSourcePropType,
+	View
 } from 'react-native';
 
 type FeatureButtonProps = {
@@ -22,24 +23,16 @@ const FeatureButton: React.FC<FeatureButtonProps> = ({
 	return (
 		<TouchableOpacity
 			style={{ backgroundColor: color }}
-			className='w-[49%] rounded-3xl px-4 pt-4 mb-4'
+			className='w-[49%] min-h-[160px] rounded-3xl px-4 pt-4 mb-4 flex flex-col justify-between'
 			onPress={onPress}
 		>
-			<Text className='text-xl font-bold mb-4 text-white font-PoppinsRegular '>
-				{title}
-			</Text>
+			<Text className='text-xl text-white font-PoppinsSemiBold'>{title}</Text>
 
-			<Image
-				source={icon}
-				style={{
-					position: 'relative',
-					bottom: 0,
-					left: -10,
-					width: '120%',
-					height: 100,
-					resizeMode: 'contain'
-				}}
-			/>
+			<View className='flex-1 justify-end'>
+				<Text> </Text>
+				{/* New container for the image */}
+				<Image source={icon} className='w-full h-28 object-contain' />
+			</View>
 		</TouchableOpacity>
 	);
 };

@@ -7,7 +7,7 @@ import { icons } from '@/constants';
 import { Button } from '@/components/shared/Button';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 type RouteParams = {
 	params: {
@@ -27,7 +27,6 @@ type RouteParams = {
 };
 
 const PetProfileScreen = () => {
-	const route = useRoute<RouteProp<RouteParams, 'params'>>();
 	const navigation = useNavigation();
 	const {
 		name,
@@ -42,7 +41,36 @@ const PetProfileScreen = () => {
 		petDescription,
 		additionalNotes,
 		id
-	} = route.params || {};
+	} = useLocalSearchParams<{
+		id?: string;
+		name?: string;
+		species?: string;
+		breed?: string;
+		photo?: string;
+		date_of_birth?: string;
+		weight?: string;
+		gender?: string;
+		character?: string | string[];
+		activity?: string | string[];
+		petDescription?: string;
+		additionalNotes?: string;
+	}>();
+	console.log(
+		'ffff',
+		name,
+		species,
+		breed,
+		photo,
+		date_of_birth,
+		weight,
+		gender,
+		character,
+		activity,
+		petDescription,
+		additionalNotes,
+		id,
+		'ffff'
+	);
 
 	const activityArray = Array.isArray(activity)
 		? activity

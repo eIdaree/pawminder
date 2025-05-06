@@ -38,7 +38,7 @@ const OrderForm = () => {
 
 	const handleSubmit = async () => {
 		if (!selectedPet || !careTime || !fee) {
-			Alert.alert('Ошибка', 'Заполните все поля!');
+			Alert.alert('Error', 'Please fill in all fields!');
 			return;
 		}
 
@@ -67,18 +67,18 @@ const OrderForm = () => {
 
 			if (!res.ok) {
 				console.log('res', res);
-				throw new Error('Ошибка при создании заказа');
+				throw new Error('Failed to create order');
 			}
 
-			Alert.alert('Успех', 'Заявка отправлена!', [
+			Alert.alert('Success', 'Request submitted!', [
 				{
-					text: 'Ок',
+					text: 'Ok',
 					onPress: () => router.replace('/(pages)/(orders)/orderList')
 				}
 			]);
 		} catch (err) {
-			console.error('Ошибка:', err);
-			Alert.alert('Ошибка', 'Не удалось отправить заявку');
+			console.error('Error:', err);
+			Alert.alert('Error', 'Failed to submit request');
 		}
 	};
 	const onSubmit = () => {
@@ -184,10 +184,7 @@ const OrderForm = () => {
 							setShowStartPicker(false);
 							if (date) {
 								if (date > endDate) {
-									Alert.alert(
-										'Ошибка',
-										'Дата начала не может быть позже даты окончания'
-									);
+									Alert.alert('Error', 'Start date cannot be after end date');
 									return;
 								}
 								setStartDate(date);
@@ -211,10 +208,7 @@ const OrderForm = () => {
 							setShowEndPicker(false);
 							if (date) {
 								if (date < startDate) {
-									Alert.alert(
-										'Ошибка',
-										'Дата начала не может быть раньше даты начала'
-									);
+									Alert.alert('Error', 'End date cannot be before start date');
 									return;
 								}
 								setStartDate(date);

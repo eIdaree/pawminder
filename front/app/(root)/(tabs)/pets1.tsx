@@ -3,7 +3,7 @@ import {
 	Text,
 	FlatList,
 	TouchableOpacity,
-	Image,
+	// Image,
 	Pressable
 } from 'react-native';
 import { useEffect, useState } from 'react';
@@ -27,6 +27,7 @@ import { usePets } from '@/context/PetContext';
 import { calculateAge } from '@/helper/calculateAge';
 import { toParams } from '@/utils/toParams';
 import { Todo } from '@/types/types';
+import { Image } from 'expo-image';
 
 const PetCarousel = ({ activeIndex, setActiveIndex, pets }) => {
 	return (
@@ -113,18 +114,14 @@ const PetStatus = ({ pet }: { pet: Pet }) => {
 
 	return (
 		<View className='bg-white min-w-[327px] h-[300px] rounded-xl my-2'>
-			{/* Контейнер с фоном */}
 			<View className='w-full h-full relative rounded-xl overflow-hidden'>
-				{/* Фон */}
 				<Image
 					source={images.container}
 					className='absolute w-full h-full'
 					resizeMode='cover'
 				/>
 
-				{/* ТЕКСТ + ИКОНКА (рядом, поверх фона) */}
 				<View className='absolute top-3 left-0 right-0 flex-row justify-center items-center px-4'>
-					{/* Сам текст с бордером */}
 					<View className='border border-primary px-6 py-3 rounded-2xl bg-white/80'>
 						<Text className='text-text text-base font-PoppinsBold text-center'>
 							{firstTask ? firstTask.title : 'No tasks available'}
@@ -132,11 +129,17 @@ const PetStatus = ({ pet }: { pet: Pet }) => {
 					</View>
 				</View>
 
-				{/* Собака снизу по центру */}
 				<View className='absolute bottom-4 left-0 right-0 items-center'>
 					<Image
-						source={pet.species === '🐱 Cat' ? images.catAva : images.dogAva}
-						className='w-32 h-40'
+						// source={pet.species === '🐱 Cat' ? images.catAva : images.dogAva}
+						source={
+							pet.species === '🐱 Cat'
+								? require('@/assets/images/pets_svg/cat.gif')
+								: require('@/assets/images/pets_svg/dog.gif')
+						}
+						// source={require(`@/assets/images/pets_svg/dog.gif`)}
+						className='w-40 h-48'
+						autoplay
 						resizeMode='contain'
 					/>
 				</View>
@@ -145,8 +148,18 @@ const PetStatus = ({ pet }: { pet: Pet }) => {
 	);
 };
 const features = [
-	{ title: 'Notes', route: '/(pages)/(notes)/notes', color: '#674CFF' },
-	{ title: 'To-do', route: '/(pages)/todo', color: '#8A75FF' }
+	{
+		title: 'To-do',
+		route: '/(pages)/todo',
+		color: '#674CFF',
+		icon: images.todo
+	},
+	{
+		title: 'Notes',
+		route: '/(pages)/(notes)/notes',
+		color: '#8A75FF',
+		icon: images.notes
+	}
 ];
 
 const PetActions = ({ petId }: { petId: number }) => (
@@ -155,6 +168,7 @@ const PetActions = ({ petId }: { petId: number }) => (
 			<FeatureButton
 				key={index}
 				title={feature.title}
+				icon={feature.icon}
 				onPress={() =>
 					router.push({
 						pathname: feature.route as any,

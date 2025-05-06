@@ -63,10 +63,10 @@ const SitterCard = ({
 					{sitter.petTypes?.map((type) => (
 						<View
 							key={type}
-							className='flex-row items-center px-2 py-1 border-2 border-primary rounded-full'
+							className='flex flex-row items-center px-2 py-1 border-2 border-primary rounded-full'
 						>
-							<Image source={icons.paw} className='w-4 h-4' />
-							<Text className='text-xs text-primary font-PoppinsMedium'>
+							<Image source={icons.paw} className='w-4 h-4 mr-1' />
+							<Text className='text-xs text-primary font-PoppinsSemiBold'>
 								{type}
 							</Text>
 						</View>

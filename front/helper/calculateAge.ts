@@ -1,4 +1,4 @@
-export const calculateAge = (dateOfBirth: string) => {
+export const calculateAge = (dateOfBirth: string | undefined) => {
 	if (!dateOfBirth) {
 		console.error('date_of_birth is undefined');
 		return { years: 0, months: 0 };

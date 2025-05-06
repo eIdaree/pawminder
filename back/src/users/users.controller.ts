@@ -34,7 +34,10 @@ export class UsersController {
   }
 
   @Get("/all")
-  findAll() {
+  findAll(@Query("role") role: string) {
+    if (role !== "admin") {
+      throw new UnauthorizedException("Access denied: not an admin");
+    }
     return this.userService.findAll();
   }
   @Get("/me")
@@ -122,12 +125,21 @@ export class UsersController {
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUsersDto,
+    @Query("role") role: string,
   ) {
+    if (role !== "admin") {
+      throw new UnauthorizedException("Access denied: not an admin");
+    }
+
     return this.userService.update(id, updateUserDto);
   }
 
   @Delete(":id")
-  remove(@Param("id", ParseIntPipe) id: number) {
+  remove(@Param("id", ParseIntPipe) id: number, @Query("role") role: string) {
+    if (role !== "admin") {
+      throw new UnauthorizedException("Access denied: not an admin");
+    }
+
     return this.userService.remove(id);
   }
 }

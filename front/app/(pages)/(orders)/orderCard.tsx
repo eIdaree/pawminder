@@ -137,9 +137,10 @@ const OrderCard = () => {
 					<View className='flex-column gap-3 mt-4'>
 						<TouchableOpacity
 							className='bg-green-500 px-6 py-3.5 rounded-xl'
-							onPress={() =>
-								updateOrderStatus(localOrder.id, { status: 'accepted' })
-							}
+							onPress={async () => {
+								await updateOrderStatus(localOrder.id, { status: 'accepted' });
+								router.replace('/(root)/(sitter-tabs)/orders');
+							}}
 						>
 							<Text className='text-white text-center font-PoppinsSemiBold text-base'>
 								Accept Order
@@ -147,9 +148,10 @@ const OrderCard = () => {
 						</TouchableOpacity>
 						<TouchableOpacity
 							className='bg-red-500 px-6 py-3.5 rounded-xl'
-							onPress={() =>
-								updateOrderStatus(localOrder.id, { status: 'rejected' })
-							}
+							onPress={async () => {
+								await updateOrderStatus(localOrder.id, { status: 'rejected' });
+								router.replace('/(root)/(sitter-tabs)/orders');
+							}}
 						>
 							<Text className='text-white text-center font-PoppinsSemiBold text-base'>
 								Decline Order

@@ -2,11 +2,15 @@ import petstore from '../assets/images/button/petshop.png';
 import map from '../assets/images/button/map.png';
 import special from '../assets/images/button/specialoffer.png';
 import sitters from '../assets/images/button/petsitters.png';
+import notes from '../assets/images/button/diary.png';
+import todo from '../assets/images/button/todo.png';
 
 import cat from '../assets/images/article_images/cat.png';
 import dog_ava from '../assets/images/article_images/dog_ava.png';
-import dogAva from '../assets/images/pets_svg/dog.png';
-import catAva from '../assets/images/pets_svg/cat.png';
+// import dogAva from '../assets/images/pets_svg/dog.png';
+// import catAva from '../assets/images/pets_svg/cat.png';
+import dogAva from '../assets/images/pets_svg/dog.gif';
+import catAva from '../assets/images/pets_svg/cat.gif';
 import container from '../assets/images/containerpet.png';
 import formapplication from '../assets/images/formapplication.png';
 
@@ -39,6 +43,7 @@ import parkmark from '@/assets/images/icons/parkmark.png';
 import search from '@/assets/images/icons/search.png';
 import closecircle from '@/assets/images/icons/close-circle.png';
 
+import article0 from '@/assets/images/article_images/article0.png';
 import article1 from '@/assets/images/article_images/article1.png';
 import article2 from '@/assets/images/article_images/article2.png';
 import article3 from '@/assets/images/article_images/article3.png';
@@ -56,11 +61,14 @@ export const images = {
 	dogAva,
 	catAva,
 	formapplication,
+	article0,
 	article1,
 	article2,
 	article3,
 	article4,
-	article5
+	article5,
+	notes,
+	todo
 };
 export const icons = {
 	shop,

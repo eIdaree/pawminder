@@ -1,12 +1,12 @@
 export const kazakhstanCities = [
-	'Алматы',
-	'Астана',
-	'Шымкент',
-	'Караганда',
-	'Актобе',
-	'Тараз',
-	'Павлодар',
-	'Усть-Каменогорск',
-	'Семей',
-	'Кызылорда'
+	'Almaty',
+	'Astana',
+	'Shymkent',
+	'Karaganda',
+	'Aktobe',
+	'Taraz',
+	'Pavlodar',
+	'Oskemen',
+	'Semey',
+	'Kyzylorda'
 ];

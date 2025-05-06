@@ -1,12 +1,9 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { StoresModule } from "./stores/stores.module";
 import { PetsModule } from "./pets/pets.module";
 import { UsersModule } from "./users/users.module";
 import { ArticlesModule } from "./articles/articles.module";
-import { ProductsModule } from "./products/products.module";
-import { ReviewsModule } from "./reviews/reviews.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
@@ -15,8 +12,8 @@ import { UploadModule } from "./upload/upload.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { OrdersModule } from "./orders/orders.module";
-import { TransactionsModule } from './transactions/transactions.module';
-import { NotesModule } from './notes/notes.module';
+import { TransactionsModule } from "./transactions/transactions.module";
+import { NotesModule } from "./notes/notes.module";
 
 @Module({
   imports: [
@@ -51,12 +48,9 @@ import { NotesModule } from './notes/notes.module';
       }),
       inject: [ConfigService],
     }),
-    StoresModule,
     PetsModule,
     UsersModule,
     ArticlesModule,
-    ProductsModule,
-    ReviewsModule,
     AuthModule,
     TasksModule,
     UploadModule,

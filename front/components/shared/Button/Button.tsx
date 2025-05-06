@@ -18,7 +18,7 @@ interface ButtonProps {
 
 const sizes = {
 	sm: 'p-2 text-sm w-[99px] h-[27px]',
-	md: 'p-1 text-base min-w-[130px] min-h-[36px]',
+	md: 'p-1 text-base min-w-[130px] min-h-[36px] ',
 	lg: 'py-3 px-10 text-lg ',
 	xl: 'w-[328px] h-[64px] text-xl '
 };
@@ -46,7 +46,7 @@ const Button: React.FC<ButtonProps> = ({
 		default: 'text-black',
 		primary: 'text-white',
 		secondary: 'text-white',
-		danger: 'text-red-500'
+		danger: 'text-white'
 	}[variant];
 	const textSize = {
 		sm: 'text-sm',
@@ -72,7 +72,7 @@ const Button: React.FC<ButtonProps> = ({
 						{Icon && iconPosition === 'left' && <Icon className='mr-2' />}
 						{title && (
 							<Text
-								className={`${textColor} ${textSize} text-center font-PoppinsSemiBold`}
+								className={`${textColor} ${textSize} text-center font-PoppinsMedium`}
 							>
 								{title}
 							</Text>

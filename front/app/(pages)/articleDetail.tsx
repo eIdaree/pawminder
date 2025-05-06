@@ -6,7 +6,10 @@ import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { router } from 'expo-router';
 import { Button } from '@/components/shared/Button';
-
+type ContentBlock = {
+	header: string;
+	text: string;
+};
 type ArticleParams = {
 	params: {
 		id?: number;
@@ -15,39 +18,131 @@ type ArticleParams = {
 		author: string;
 		date: string;
 		imageUrl: string;
-		content?: string;
+		content: string;
 	};
 };
 
 const ArticleDetailScreen = () => {
 	const route = useRoute<RouteProp<ArticleParams, 'params'>>();
 	const navigation = useNavigation();
-	const { id, title, subtitle, author, date, imageUrl, content } =
-		route.params || {};
-
+	const {
+		id,
+		title,
+		subtitle,
+		author,
+		date,
+		imageUrl,
+		content = []
+	} = route.params || {};
+	console.log('route.params', route.params);
+	// console.log('content', JSON.parse(content));
 	// Если полного текста нет, берем subtitle в качестве preview
-	const articleContent = content || subtitle;
+	const articleContent: ContentBlock[] = content
+		? JSON.parse(content)
+		: [{ header: 'Preview', text: 'fffff' }];
 	const [isEditMode, setIsEditMode] = useState(false);
 
 	// Функция для генерации PDF и его шаринга
 	const handleShare = async () => {
 		try {
-			// Формируем HTML с данными статьи
+			// Generate HTML with improved styling
+			const contentHtml = articleContent
+				.map(
+					(block) => `
+			  <div class="content-block">
+				<h3 class="content-header">${block.header}</h3>
+				<p class="content-text">${block.text}</p>
+			  </div>
+			`
+				)
+				.join('');
+
 			const html = `
-        <html>
-          <body style="font-family: Arial, sans-serif; padding: 16px;">
-            <h1>${title}</h1>
-            <h2>${subtitle}</h2>
-            <p><strong>By:</strong> ${author} · <strong>Date:</strong> ${date}</p>
-            <p>${articleContent}</p>
-          </body>
-        </html>
-      `;
-			const { uri } = await Print.printToFileAsync({ html });
+			<html>
+			  <head>
+				<style>
+				  body {
+					font-family: 'Helvetica Neue', Arial, sans-serif;
+					line-height: 1.6;
+					color: #333;
+					max-width: 800px;
+					margin: 0 auto;
+					padding: 20px;
+				  }
+				  .article-header {
+					text-align: center;
+					margin-bottom: 30px;
+					border-bottom: 2px solid #f0f0f0;
+					padding-bottom: 20px;
+				  }
+				  h1 {
+					color: #2c3e50;
+					font-size: 28px;
+					margin-bottom: 10px;
+				  }
+				  h2 {
+					color: #7f8c8d;
+					font-size: 20px;
+					font-weight: normal;
+					margin-bottom: 15px;
+				  }
+				  .meta {
+					color: #95a5a6;
+					font-size: 14px;
+					margin-bottom: 20px;
+				  }
+				  .content-block {
+					margin-bottom: 25px;
+				  }
+				  .content-header {
+					color: #3498db;
+					font-size: 20px;
+					margin: 25px 0 10px 0;
+					padding-bottom: 5px;
+					border-bottom: 1px solid #eee;
+				  }
+				  .content-text {
+					font-size: 16px;
+					margin: 0 0 15px 0;
+					text-align: justify;
+				  }
+				  @media print {
+					body {
+					  padding: 0;
+					}
+					.article-header {
+					  page-break-after: avoid;
+					}
+					.content-block {
+					  page-break-inside: avoid;
+					}
+				  }
+				</style>
+			  </head>
+			  <body>
+				<div class="article-header">
+				  <h1>${title}</h1>
+				  <h2>${subtitle}</h2>
+				  <div class="meta">
+					By ${author} · Published on ${date}
+				  </div>
+				</div>
+				${contentHtml}
+			  </body>
+			</html>
+		  `;
+
+			const { uri } = await Print.printToFileAsync({
+				html,
+				width: 612, // US Letter width in points (8.5in)
+				height: 792 // US Letter height in points (11in)
+			});
+
 			if (!(await Sharing.isAvailableAsync())) {
 				Alert.alert('Sharing is not available on your platform');
 				return;
 			}
+
 			await Sharing.shareAsync(uri, {
 				mimeType: 'application/pdf',
 				dialogTitle: 'Share Article',
@@ -115,7 +210,14 @@ const ArticleDetailScreen = () => {
 						{subtitle}
 					</Text>
 					<Text className='text-center text-sm text-gray-500 mb-4'>{`By ${author} · ${date}`}</Text>
-					<Text className='text-base leading-6'>{articleContent}</Text>
+					{articleContent.map((block, index) => (
+						<View key={index} className='mb-4 border-lightgray border-t mt-4'>
+							<Text className='text-xl font-bold mb-2 mt-2'>
+								{block.header}
+							</Text>
+							<Text className='text-base leading-6'>{block.text}</Text>
+						</View>
+					))}
 				</View>
 			</ScrollView>
 
