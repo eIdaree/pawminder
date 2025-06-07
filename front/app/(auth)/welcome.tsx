@@ -29,12 +29,12 @@ export default function Welcome() {
 				/>
 			</View>
 			<Text className='text-center text-gray-500 mt-4'>
-				Уже есть аккаунт?{' '}
+				Already have an account?{' '}
 				<Text
 					className='text-primary font-bold'
 					onPress={() => router.push('/sign-in')}
 				>
-					Войти
+					Sign In
 				</Text>
 			</Text>
 		</View>

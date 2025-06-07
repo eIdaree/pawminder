@@ -28,7 +28,7 @@ export const useOrders = (mode: Mode = 'owner') => {
 			setOrders(data);
 		} catch (err: any) {
 			setError(err);
-			console.error('Ошибка при получении заказов:', err);
+			console.error('Error while rendering orders:', err);
 		} finally {
 			setLoading(false);
 		}
@@ -57,9 +57,9 @@ export const useOrders = (mode: Mode = 'owner') => {
 					res.status === 400 &&
 					errorBody.message === 'Not enough balance to complete the order'
 				) {
-					throw new Error('Недостаточно средств для завершения заказа');
+					throw new Error('Not enough balance to complete the order');
 				}
-				throw new Error('Ошибка при обновлении заказа');
+				throw new Error('Error updating order status');
 			}
 			await fetchOrders();
 		} catch (err) {

@@ -25,7 +25,7 @@ export const PetsProvider: React.FC<{ children: React.ReactNode }> = ({
 			const data = await response.json();
 			setPets(data);
 		} catch (error) {
-			console.error('Ошибка загрузки питомцев:', error);
+			console.error('Error while fetching pets:', error);
 		}
 	};
 

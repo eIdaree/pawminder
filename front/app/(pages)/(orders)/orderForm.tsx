@@ -30,6 +30,7 @@ const OrderForm = () => {
 	const [endDate, setEndDate] = useState(new Date());
 	const [services, setServices] = useState<string[]>([]);
 	const [careTime, setCareTime] = useState('');
+	const [address, setAddress] = useState('');
 	const [showStartPicker, setShowStartPicker] = useState(false);
 	const [showEndPicker, setShowEndPicker] = useState(false);
 	const [phone, setPhone] = useState(user.phone);
@@ -50,7 +51,8 @@ const OrderForm = () => {
 			endDate,
 			careTime,
 			services,
-			fee: Number(fee)
+			fee: Number(fee),
+			address
 		};
 
 		try {
@@ -119,6 +121,13 @@ const OrderForm = () => {
 					keyboardType='phone-pad'
 					onChangeText={setPhone}
 					editable={true}
+				/>
+				<Text className={headerTitleInputStyle}>Address</Text>
+				<TextInput
+					className={inputStyle}
+					placeholder='Address (street, city)'
+					value={address}
+					onChangeText={setAddress}
 				/>
 
 				{/* Питомец */}

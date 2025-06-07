@@ -9,12 +9,12 @@ import { toParams } from '@/utils/toParams';
 
 const handleContactPress = (phone: string) => {
 	Alert.alert(
-		'Связаться с няней',
-		`Выберите способ связи с номером ${phone}`,
+		'Contact Sitter',
+		`Choose connect type with ${phone}`,
 		[
-			{ text: 'Отмена', style: 'cancel' },
+			{ text: 'Cancel', style: 'cancel' },
 			{
-				text: 'Позвонить',
+				text: 'Call',
 				onPress: () => Linking.openURL(`tel:${phone}`)
 			},
 			{
@@ -22,7 +22,7 @@ const handleContactPress = (phone: string) => {
 				onPress: () => {
 					const url = `https://wa.me/${phone.replace('+', '')}`;
 					Linking.openURL(url).catch(() =>
-						Alert.alert('Ошибка', 'Не удалось открыть WhatsApp')
+						Alert.alert('Error', 'Can not open WhatsApp')
 					);
 				}
 			}

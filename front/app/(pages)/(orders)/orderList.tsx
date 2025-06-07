@@ -16,17 +16,17 @@ import { useAuth } from '@/context/AuthContext';
 const getStatusBadgeStyle = (status: string) => {
 	switch (status) {
 		case 'pending':
-			return { text: 'Ожидает подтверждения', bg: 'bg-lightgray' };
+			return { text: 'Pending confirmation', bg: 'bg-lightgray' };
 		case 'accepted':
-			return { text: 'Подтверждён', bg: 'bg-blue-100' };
+			return { text: 'Confirmed', bg: 'bg-blue-100' };
 		case 'in_progress':
-			return { text: 'В процессе', bg: 'bg-indigo-100' };
+			return { text: 'In progress', bg: 'bg-indigo-100' };
 		case 'completed':
-			return { text: 'Завершён', bg: 'bg-green-100' };
+			return { text: 'Completed', bg: 'bg-green-100' };
 		case 'rejected':
-			return { text: 'Отменён', bg: 'bg-red-100' };
+			return { text: 'Cancelled', bg: 'bg-red-100' };
 		default:
-			return { text: 'Неизвестно', bg: 'bg-gray-200' };
+			return { text: 'Unknown', bg: 'bg-gray-200' };
 	}
 };
 

@@ -15,7 +15,7 @@ import { Button } from '@/components/shared/Button';
 import { useAuth } from '@/context/AuthContext';
 import CollapsibleCheckboxGroup from '@/components/shared/CollapsibleCheckboxGroup/CollapsibleCheckboxGroup';
 import RNPickerSelect from 'react-native-picker-select';
-import { kazakhstanCities } from '@/constants/city';
+import { kazakhstanCities } from '@/constants/places';
 import { tokenCache } from '@/utils/auth';
 import { router } from 'expo-router';
 

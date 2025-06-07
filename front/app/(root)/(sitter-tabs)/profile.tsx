@@ -8,15 +8,15 @@ import { images } from '@/constants';
 const getVerificationMessage = (status: string) => {
 	switch (status) {
 		case 'unverified':
-			return 'Вы ещё не проходили верификацию.\nПожалуйста, заполните форму.';
+			return 'You have not been verified yet.\nPlease fill out the form.';
 		case 'pending':
-			return 'Заявка отправлена. Ожидайте подтверждения.';
+			return 'Application submitted. Awaiting confirmation.';
 		case 'verified':
-			return 'Вы верифицированный специалист ✅';
+			return 'You are a verified specialist ✅';
 		case 'rejected':
-			return 'Заявка отклонена. Попробуйте снова.';
+			return 'Application rejected. Please try again.';
 		default:
-			return 'Статус неизвестен';
+			return 'Status unknown';
 	}
 };
 const getStatusColor = (status: string) => {
@@ -50,7 +50,7 @@ const Profile = () => {
 		<View className='bg-gray-100 px-4 py-8 items-start flex-1'>
 			{/* Header */}
 			<Text className='text-3xl font-PoppinsSemiBold'>
-				Welcome {user.first_name}
+				Welcome {user?.first_name}
 			</Text>
 			<Text
 				className={`mt-2 text-xs ${getStatusColor(user.verificationStatus)}`}

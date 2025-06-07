@@ -21,17 +21,17 @@ const TopUpModal: React.FC<TopUpModalProps> = ({ visible, onClose }) => {
 	const handleTopUp = async () => {
 		const numericAmount = Number(amount);
 		if (isNaN(numericAmount) || numericAmount <= 0) {
-			return Alert.alert('Ошибка', 'Введите корректную сумму');
+			return Alert.alert('Error', 'Please enter a valid amount');
 		}
 
 		try {
 			await topUp(numericAmount);
-			Alert.alert('Успех', 'Баланс успешно пополнен');
+			Alert.alert('Success', 'Your balance has been topped up successfully');
 			setAmount('');
 			onClose();
 		} catch (err) {
 			console.error(err);
-			Alert.alert('Ошибка', 'Не удалось пополнить баланс');
+			Alert.alert('Error', 'Failed to top up balance. Please try again later.');
 		}
 	};
 
@@ -40,11 +40,11 @@ const TopUpModal: React.FC<TopUpModalProps> = ({ visible, onClose }) => {
 			<View className='flex-1 justify-center items-center bg-black/40 px-5'>
 				<View className='bg-white w-full rounded-xl p-6'>
 					<Text className='text-xl font-PoppinsSemiBold mb-3 text-center'>
-						Пополнить баланс
+						Top Up Your Balance
 					</Text>
 					<TextInput
 						className='border border-gray-300 rounded-xl px-4 py-3 mb-4'
-						placeholder='Введите сумму (₸)'
+						placeholder='Enter the balance (₸)'
 						keyboardType='numeric'
 						value={amount}
 						onChangeText={setAmount}
@@ -54,11 +54,11 @@ const TopUpModal: React.FC<TopUpModalProps> = ({ visible, onClose }) => {
 						onPress={handleTopUp}
 					>
 						<Text className='text-center text-white font-PoppinsSemiBold'>
-							Пополнить
+							Top Up
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={onClose}>
-						<Text className='text-center text-gray-500'>Отмена</Text>
+						<Text className='text-center text-gray-500'>Cancel</Text>
 					</TouchableOpacity>
 				</View>
 			</View>

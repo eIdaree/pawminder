@@ -32,7 +32,7 @@ const OrderCard = () => {
 	const [rating, setRating] = useState('');
 	const [review, setReview] = useState('');
 
-	const { sitter, user: owner, pet, status } = localOrder;
+	const { sitter, user: owner, pet, status, address } = localOrder;
 
 	const isSitter = user.id === sitter?.id;
 	const isOwner = user.id === owner?.id;
@@ -46,23 +46,23 @@ const OrderCard = () => {
 
 			await fetchBalance();
 
-			Alert.alert('Успех', 'Заказ завершён');
+			Alert.alert('Success', 'Order completed successfully');
 		} catch (err: any) {
-			Alert.alert('Ошибка', err.message || 'Не удалось завершить заказ');
+			Alert.alert('Error', err.message || 'Failed to complete order');
 		}
 	};
 
 	const submitReview = async () => {
-		if (!rating) return Alert.alert('Ошибка', 'Пожалуйста, укажите рейтинг');
+		if (!rating) return Alert.alert('Error', 'Please provide a rating');
 		try {
 			await updateOrderStatus(localOrder.id, {
 				rating: Number(rating),
 				review
 			});
 			setLocalOrder({ ...localOrder, rating: Number(rating), review });
-			Alert.alert('Спасибо!', 'Отзыв сохранён');
+			Alert.alert('Thank you!', 'Your review has been submitted successfully');
 		} catch {
-			Alert.alert('Ошибка', 'Не удалось отправить отзыв');
+			Alert.alert('Error', 'Failed to submit review');
 		}
 	};
 
@@ -86,6 +86,11 @@ const OrderCard = () => {
 				</Text>
 				<InfoBlock label={`${owner?.first_name} ${owner?.last_name}`} />
 				<InfoBlock label={owner?.phone || '—'} />
+
+				<Text className='mt-4 font-PoppinsSemiBold text-base text-text'>
+					Address
+				</Text>
+				<InfoBlock label={address || 'Address not provided'} />
 
 				{/* Sitter */}
 				<Text className='mt-4 font-PoppinsSemiBold text-base text-text'>
@@ -174,17 +179,17 @@ const OrderCard = () => {
 				{isOwner && localOrder.status === 'completed' && !localOrder.rating && (
 					<View className='mt-6'>
 						<Text className='font-PoppinsSemiBold text-base mb-2'>
-							Оставить отзыв:
+							Leave a review for the sitter:
 						</Text>
 						<TextInput
-							placeholder='Рейтинг от 1 до 5'
+							placeholder='Rating from 1 to 5'
 							keyboardType='numeric'
 							value={rating}
 							onChangeText={setRating}
 							className='bg-white p-3 rounded-xl mb-2'
 						/>
 						<TextInput
-							placeholder='Ваш отзыв'
+							placeholder='Your review'
 							value={review}
 							onChangeText={setReview}
 							multiline
@@ -195,7 +200,7 @@ const OrderCard = () => {
 							onPress={submitReview}
 						>
 							<Text className='text-center text-white font-PoppinsSemiBold'>
-								Отправить отзыв
+								Submit Review
 							</Text>
 						</TouchableOpacity>
 					</View>

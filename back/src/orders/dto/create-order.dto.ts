@@ -27,6 +27,8 @@ export class CreateOrderDto {
 
   @IsString()
   careTime: string;
+  @IsString()
+  address: string;
 
   @IsArray()
   @IsString({ each: true })

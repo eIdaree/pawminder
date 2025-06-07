@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Modal, ScrollView, TouchableOpacity } from 'react-native';
-import { kazakhstanCities } from '@/constants/city';
+import { kazakhstanCities } from '@/constants/places';
 import { Button } from './shared/Button';
 
 const skillsOptions = ['Walking', 'Training', 'Grooming', 'Medical Care'];

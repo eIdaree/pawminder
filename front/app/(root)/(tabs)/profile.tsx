@@ -22,7 +22,7 @@ const Profile = () => {
 	return (
 		<View className='bg-gray-100 px-4 py-8 items-start flex-1'>
 			<Text className='text-3xl font-PoppinsSemiBold text-bold'>
-				Welcome {user.first_name}
+				Welcome {user?.first_name}
 			</Text>
 			<Text className='text-xl font-PoppinsSemiBold mb-6'>
 				How are you doing?

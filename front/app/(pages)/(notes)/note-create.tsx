@@ -25,7 +25,7 @@ const NoteCreate = () => {
 
 	const handleSave = async () => {
 		if (!title.trim() || !content.trim()) {
-			Alert.alert('Ошибка', 'Заполните все поля');
+			Alert.alert('Error', 'Fields cannot be empty');
 			return;
 		}
 		try {
@@ -44,10 +44,10 @@ const NoteCreate = () => {
 			});
 			if (!res.ok) {
 				console.log('Errorrr', res);
-				throw new Error('Ошибка при сохранении');
+				throw new Error('Error while saving note');
 			}
 
-			Alert.alert('Успешно', 'Заметка добавлена');
+			Alert.alert('Success', 'Note saved successfully');
 			router.back(); // Вернуться к списку
 		} catch (err: any) {
 			console.error(err);

@@ -44,6 +44,8 @@ export class Order {
 
   @Column({ nullable: true })
   review?: string;
+  @Column({ nullable: true })
+  address?: string;
 
   @Column({ nullable: true })
   notes?: string;
