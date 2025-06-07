@@ -127,9 +127,9 @@ export class UsersController {
     @Body() updateUserDto: UpdateUsersDto,
     @Query("role") role: string,
   ) {
-    if (role !== "admin") {
-      throw new UnauthorizedException("Access denied: not an admin");
-    }
+    // if (role !== "admin" && updateUserDto.verificationStatus !== "pending") {
+    //   throw new UnauthorizedException("Access denied: not an admin");
+    // }
 
     return this.userService.update(id, updateUserDto);
   }

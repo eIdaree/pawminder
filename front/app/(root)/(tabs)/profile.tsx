@@ -6,7 +6,7 @@ import TopUpModal from '@/components/TopUpModal';
 import { useBalance } from '@/context/BalanceContext';
 
 const Profile = () => {
-	const { user, logout } = useAuth();
+	const { user, logout, isLoading } = useAuth();
 	const router = useRouter();
 	const { balance } = useBalance();
 	const [showModal, setShowModal] = useState(false);
@@ -18,6 +18,15 @@ const Profile = () => {
 			console.error('Error logging out:', error);
 		}
 	};
+
+	// Handle loading or user being null
+	if (isLoading || !user) {
+		return (
+			<View className='flex-1 justify-center items-center bg-white'>
+				<Text className='text-lg'>Loading profile...</Text>
+			</View>
+		);
+	}
 
 	return (
 		<View className='bg-gray-100 px-4 py-8 items-start flex-1'>

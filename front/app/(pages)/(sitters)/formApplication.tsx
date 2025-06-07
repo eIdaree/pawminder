@@ -79,7 +79,7 @@ const FormApplication = () => {
 			});
 			if (!response.ok) {
 				const errorText = await response.text();
-				throw new Error(`Form error: ${errorText || response.status}`);
+				throw new Error(`Form error1: ${errorText || response.status}`);
 			}
 
 			const responseData = await response.json();
